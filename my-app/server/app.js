@@ -1,27 +1,31 @@
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
-const cors = require('cors');
 
 const app = express();
 const server = http.createServer(app);
-
 const wss = new WebSocket.Server({ server });
 
-app.use(cors());
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+let users = {};
 
 wss.on('connection', (ws) => {
   ws.on('message', (message) => {
-    console.log(`Received: ${message}`);
-  });
+    let parsedMessage = JSON.parse(message);
 
-  ws.send('Hello! I am a WebSocket server.');
+    switch (parsedMessage.type) {
+      case 'login':
+        users[parsedMessage.username] = ws;
+        ws.username = parsedMessage.username;
+        break;
+      case 'message':
+        const targetWs = users[parsedMessage.target];
+        targetWs.send(JSON.stringify({ type: 'message', content: parsedMessage.content }));
+        break;
+    }
+  });
 });
 
-server.listen(3001, () => {
-  console.log('Server running on http://localhost:3001');
+const port = process.env.PORT || 3001;
+server.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
 });
