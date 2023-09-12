@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUsername, setTargetUsername, addMessage } from './userSlice';
+import { setUsername, setTargetUsername, addMessage } from '../store/userSlice';
+
 
 
 const Chat = () => {
