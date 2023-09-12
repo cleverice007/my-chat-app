@@ -1,42 +1,47 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useRef,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsername, setTargetUsername, addMessage } from '../store/userSlice';
 
 
 
 const Chat = () => {
+  const ws = useRef(null); 
   const dispatch = useDispatch();
   const username = useSelector((state) => state.user.username);
   const targetUsername = useSelector((state) => state.user.targetUsername);
   const messages = useSelector((state) => state.user.messages);
+  const [messageContent, setMessageContent] = useState('');
 
+ 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:3001');
-
-    ws.addEventListener('message', (event) => {
-      const newMessage = JSON.parse(event.data);
-      dispatch(addMessage(newMessage));
+    ws.current = new WebSocket('ws://localhost:3000');
+    ws.current.addEventListener('message', (event) => {
+      try {
+        const newMessage = JSON.parse(event.data);
+        dispatch(addMessage(newMessage));
+      } catch (e) {
+        console.error('Failed to parse the received message as JSON:', event.data);
+      }
     });
-
+  
     return () => {
-      ws.close();
+      ws.current.close();
     };
   }, [dispatch]);
+  
 
   const sendMessage = () => {
-    const ws = new WebSocket('ws://localhost:3001');
-    ws.addEventListener('open', () => {
-      ws.send(
+    if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+      ws.current.send(
         JSON.stringify({
           type: 'message',
           from: username,
           to: targetUsername,
-          content: 'Your message content here',
+          content: messageContent,
         })
       );
-    });
+    }
   };
-
   return (
     <div>
       <input
@@ -49,7 +54,10 @@ const Chat = () => {
         placeholder="Target username"
         onChange={(e) => dispatch(setTargetUsername(e.target.value))}
       />
-      <textarea placeholder="Your message here"></textarea>
+      <textarea 
+        placeholder="Your message here" 
+        onChange={(e) => setMessageContent(e.target.value)} 
+      ></textarea>
       <button onClick={sendMessage}>Send</button>
       <textarea readOnly value={messages.map((msg) => `${msg.from}: ${msg.content}`).join('\n')} />
     </div>
