@@ -14,7 +14,7 @@ const Chat = () => {
 
 
   useEffect(() => {
-    ws.current = new WebSocket('ws://localhost:3000');
+    ws.current = new WebSocket(process.env.REACT_APP_WS_URL || 'ws://localhost:3000');
 
     ws.current.onopen = () => {
       console.log("WebSocket connection opened");
