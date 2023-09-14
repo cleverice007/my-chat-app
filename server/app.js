@@ -42,7 +42,7 @@ wss.on('connection', (ws) => {
 
 
 const port = process.env.PORT || 3000;
-const host = process.env.REACT_APP_BACKEND_URL || '0.0.0.0';
+const host = process.env.HOST || '0.0.0.0';
 server.listen(port, host, () => {
   console.log(`Server running on http://${host}:${port}`);
 });
