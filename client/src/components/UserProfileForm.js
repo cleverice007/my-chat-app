@@ -32,7 +32,7 @@ const UserProfileForm = () => {
   };
 
   return (
-    <form className="p-4" onSubmit={handleSubmit}>
+    <form className="p-4 max-w-xl mx-auto bg-white rounded shadow-lg" onSubmit={handleSubmit}>
       {/* Profile Picture Upload */}
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">Profile Picture:</label>
@@ -83,7 +83,6 @@ const UserProfileForm = () => {
           <option value="Music">Music</option>
           <option value="Sports">Sports</option>
           <option value="Art">Art</option>
-          {/* Add more options as needed */}
         </select>
       </div>
 
