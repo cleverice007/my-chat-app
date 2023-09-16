@@ -4,11 +4,34 @@ const WebSocket = require('ws');
 
 
 const cors = require('cors');
+const mysql = require('mysql');
+
+require('dotenv').config();
+
+
+// 資料庫連接設定
+const db = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE
+});
+
+// 連接資料庫
+db.connect((err) => {
+  if (err) {
+    console.error('Error connecting to MySQL:', err);
+    return;
+  }
+  console.log('Connected to MySQL database');
+});
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 app.use(cors());
+
+
 let users = {};
 
 wss.on('connection', (ws) => {
