@@ -7,7 +7,7 @@ const cors = require('cors');
 const mysql = require('mysql');
 
 require('dotenv').config();
-
+const userProfileRoutes = require('./routes/userProfileRoutes');
 
 // 資料庫連接設定
 const db = mysql.createConnection({
@@ -31,6 +31,9 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 app.use(cors());
+
+
+app.use('/', userProfileRoutes); 
 
 
 let users = {};
