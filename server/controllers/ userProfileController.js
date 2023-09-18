@@ -1,4 +1,4 @@
-exports.submitUserProfile = (req, res) => {
+module.exports.submitUserProfile = (req, res) => {
     const userProfileData = req.body;
     console.log("User Profile Data:", userProfileData);
   
