@@ -9,6 +9,7 @@ const UserProfileForm = () => {
     interests: [],
     location: ''
   });
+  const [preview, setPreview] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,12 +32,34 @@ const UserProfileForm = () => {
     console.log('Form data submitted:', formData);
   };
 
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <form className="p-4 max-w-xl mx-auto bg-white rounded shadow-lg" onSubmit={handleSubmit}>
-      {/* Profile Picture Upload */}
-      <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Profile Picture:</label>
-        <input type="file" name="profilePicture" />
+        {/* Profile Picture Preview */}
+        {preview && (
+        <div className="mb-4">
+          <img src={preview} alt="Profile Preview" style={{
+            borderRadius: '50%',
+            width: '100px',
+            height: '100px'
+          }} />
+        </div>
+      )}
+     {/* Profile Picture Upload */}
+     <div className="mb-4">
+        <label>Profile Picture:</label>
+        <input type="file" name="profilePicture" onChange={handleFileChange} />
       </div>
 
       {/* Name */}
