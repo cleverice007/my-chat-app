@@ -5,6 +5,8 @@ const WebSocket = require('ws');
 
 const cors = require('cors');
 const mysql = require('mysql');
+const sequelize = require('./config/database'); 
+const UserProfile = require('./models/UserProfile'); 
 
 require('dotenv').config();
 const userProfileRoutes = require('./routes/userProfileRoutes');
@@ -65,6 +67,10 @@ wss.on('connection', (ws) => {
         break;
     }
   });
+});
+
+sequelize.sync().then(() => {  // 初始化資料庫和資料表
+  console.log('Database & tables created!');
 });
 
 
