@@ -31,11 +31,13 @@ const UserProfileForm = () => {
     });
   };
 
+  let originalFile; // 用於儲存原始的 File 物件
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const form = new FormData();
-    form.append('profilePicture', file);
+    form.append('profilePicture',originalFile);
     form.append('name', formData.name);
     form.append('age', formData.age);
     form.append('gender', formData.gender);
@@ -56,19 +58,19 @@ const UserProfileForm = () => {
     }
   };
 
-const handleFileChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const previewUrl = reader.result;
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    originalFile = file; // 儲存原始 File 物件
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const previewUrl = reader.result;
+        setProfilePicturePreview(previewUrl); // 使用 Base64 顯示預覽
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   
-      setProfilePicturePreview(previewUrl);
-    };
-    reader.readAsDataURL(file);
-  }
-};
-
 
   return (
     <form className="p-4 max-w-xl mx-auto bg-white rounded shadow-lg" onSubmit={handleSubmit}>
