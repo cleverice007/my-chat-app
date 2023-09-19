@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
 
 const UserProfileForm = () => {
   const [formData, setFormData] = useState({
+    profilePicture: null ,
     name: '',
     age: '18',
     gender: 'Male',
@@ -9,7 +12,8 @@ const UserProfileForm = () => {
     interests: [],
     location: ''
   });
-  const [preview, setPreview] = useState(null);
+  
+  const [profilePicturePreview, setProfilePicturePreview] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,29 +31,49 @@ const UserProfileForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form data submitted:', formData);
+  
+    try {
+      const apiUrl = "http://ec2-54-87-197-219.compute-1.amazonaws.com:3000/userprofiles";
+  
+      const response = await axios.post(apiUrl, formData);
+  
+      console.log("API response:", response.data);
+  
+    } catch (error) {
+      console.log("API Error:", error);
+    }
   };
-
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreview(reader.result);
+        const previewUrl = reader.result;
+  
+        // 設置 profilePicturePreview 狀態
+        setProfilePicturePreview(previewUrl);
+  
+        // 同時更新 formData 狀態
+        setFormData({
+          ...formData,
+          profilePicture: previewUrl // 更新為 profilePicture
+        });
       };
       reader.readAsDataURL(file);
     }
   };
+  
 
   return (
     <form className="p-4 max-w-xl mx-auto bg-white rounded shadow-lg" onSubmit={handleSubmit}>
         {/* Profile Picture Preview */}
-        {preview && (
+        {profilePicturePreview && (
         <div className="mb-4">
-          <img src={preview} alt="Profile Preview" style={{
+          <img src={profilePicturePreview} alt="Profile Preview" style={{
             borderRadius: '50%',
             width: '100px',
             height: '100px'
