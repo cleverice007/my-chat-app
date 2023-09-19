@@ -13,8 +13,10 @@ const UserProfileForm = () => {
     location: ''
   });
   
-  const [profilePicturePreview, setProfilePicturePreview] = useState(null);
-
+// 用於儲存 Base64 編碼的預覽圖片
+const [profilePicturePreview, setProfilePicturePreview] = useState(null);
+// 用於儲存原始的 File 物件
+const [profilePicture, setprofilePicture] = useState(null);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -37,7 +39,7 @@ const UserProfileForm = () => {
     e.preventDefault();
 
     const form = new FormData();
-    form.append('profilePicture',originalFile);
+    form.append('profilePicture',profilePicture);
     form.append('name', formData.name);
     form.append('age', formData.age);
     form.append('gender', formData.gender);
@@ -60,8 +62,8 @@ const UserProfileForm = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    originalFile = file; // 儲存原始 File 物件
     if (file) {
+      setprofilePicture(file); // 儲存原始的 File 物件
       const reader = new FileReader();
       reader.onloadend = () => {
         const previewUrl = reader.result;
