@@ -33,40 +33,42 @@ const UserProfileForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form data submitted:', formData);
-  
+
+    const form = new FormData();
+    form.append('profilePicture', file);
+    form.append('name', formData.name);
+    form.append('age', formData.age);
+    form.append('gender', formData.gender);
+    form.append('aboutMe', formData.aboutMe);
+    form.append('interests', JSON.stringify(formData.interests)); // 如果 interests 是一個陣列或對象
+    form.append('location', formData.location);
+
     try {
       const apiUrl = "http://ec2-54-87-197-219.compute-1.amazonaws.com:3000/userprofiles";
-  
-      const response = await axios.post(apiUrl, formData);
-  
+      const response = await axios.post(apiUrl, form, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       console.log("API response:", response.data);
-  
     } catch (error) {
       console.log("API Error:", error);
     }
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const previewUrl = reader.result;
+const handleFileChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const previewUrl = reader.result;
   
-        // 設置 profilePicturePreview 狀態
-        setProfilePicturePreview(previewUrl);
-  
-        // 同時更新 formData 狀態
-        setFormData({
-          ...formData,
-          profilePicture: previewUrl // 更新為 profilePicture
-        });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-  
+      setProfilePicturePreview(previewUrl);
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
 
   return (
     <form className="p-4 max-w-xl mx-auto bg-white rounded shadow-lg" onSubmit={handleSubmit}>

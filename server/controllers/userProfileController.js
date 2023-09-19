@@ -25,13 +25,15 @@ module.exports.submitUserProfile = async (req, res) => {
     const command = new PutObjectCommand(uploadParams);
     await s3.send(command);
     
+    const interestsArray = JSON.parse(userProfileData.interests);  // 解析 JSON 字串為陣列
+
     const newUserProfile = await UserProfile.create({
-      profilePicture: `https://${uploadParams.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`,  // 將 S3 URL 儲存
+      profilePicture: `https://${uploadParams.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`,
       name: userProfileData.name,
       age: userProfileData.age,
       gender: userProfileData.gender,
       aboutMe: userProfileData.aboutMe,
-      interests: userProfileData.interests,
+      interests: interestsArray,  // 使用解析後的陣列
       location: userProfileData.location
     });
   
