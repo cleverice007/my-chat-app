@@ -23,7 +23,7 @@ const UserProfile = sequelize.define('UserProfile', {
     allowNull: true,
   },
   interests: {
-    type: DataTypes.STRING,
+    type: DataTypes.JSON,
     allowNull: true,
   },
   location: {

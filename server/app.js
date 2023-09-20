@@ -11,6 +11,7 @@ const UserProfile = require('./models/UserProfile');
 require('dotenv').config();
 const userProfileRoutes = require('./routes/userProfileRoutes');
 
+/*
 // 資料庫連接設定
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -28,6 +29,8 @@ db.connect((err) => {
   }
   console.log('Connected to MySQL database');
 });
+*/
+
 
 const app = express();
 const server = http.createServer(app);
