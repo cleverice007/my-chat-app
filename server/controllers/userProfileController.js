@@ -22,8 +22,11 @@ const upload = multer({
     }
   })
 });
+const uploadMiddleware = upload.single('profilePicture');
+module.exports.uploadMiddleware = uploadMiddleware;
 
-module.exports.submitUserProfile = upload.single('profilePicture'), async (req, res) => {
+
+module.exports.submitUserProfile = async (req, res) => {
   const userProfileData = req.body;
   const file = req.file; 
   const fileName = file.key;
@@ -47,3 +50,8 @@ module.exports.submitUserProfile = upload.single('profilePicture'), async (req, 
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
+
+
+
