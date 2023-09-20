@@ -3,6 +3,7 @@ const multer = require('multer');
 const multerS3 = require('multer-s3');
 const UserProfile = require('../models/UserProfile');
 
+
 // 初始化 S3 服務
 const s3 = new S3Client({
   region: process.env.AWS_REGION,
@@ -24,8 +25,8 @@ const upload = multer({
 
 module.exports.submitUserProfile = upload.single('profilePicture'), async (req, res) => {
   const userProfileData = req.body;
-  const file = req.file;  // 使用 multer-s3，file 的資料會在 req.file
-  const fileName = file.key; // 使用 multer-s3，檔案名稱會在 key 屬性
+  const file = req.file; 
+  const fileName = file.key;
 
   try {
     const interestsArray = JSON.parse(userProfileData.interests);
