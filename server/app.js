@@ -34,7 +34,7 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 app.use(cors());
 
-
+//使用到的路由
 app.use('/', userProfileRoutes); 
 
 

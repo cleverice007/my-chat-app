@@ -47,7 +47,7 @@ const [profilePicture, setprofilePicture] = useState(null);
     form.append('location', formData.location);
 
     try {
-      const apiUrl = "http://ec2-54-87-197-219.compute-1.amazonaws.com:3000/userprofiles";
+      const apiUrl = `${process.env.REACT_APP_BACKEND_URL}/userprofiles`;
       const response = await axios.post(apiUrl, form, {
         headers: {
           'Content-Type': 'multipart/form-data',
