@@ -33,7 +33,6 @@ const [profilePicture, setprofilePicture] = useState(null);
     });
   };
 
-  let originalFile; // 用於儲存原始的 File 物件
 
   const handleSubmit = async (e) => {
     e.preventDefault();
