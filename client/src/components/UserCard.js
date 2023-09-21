@@ -6,7 +6,7 @@ const UserCard = ({ username, profilePicture, onClick }) => (
     onClick={onClick}
   >
     <img 
-      className="w-full h-48 object-cover" 
+      className="w-full h-30 object-cover" 
       src={profilePicture} 
       alt={`${username}'s profile`} 
     />
