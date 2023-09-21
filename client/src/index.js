@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Chat from './components/chat.js';
+import ChatPage from './Pages/ChatPage.js';
 import UserProfilePage from './Pages/UserProfilePage'; 
 import store from './store/store';
 
@@ -16,7 +16,7 @@ root.render(
     <Provider store={store}>
       <Router>
         <Routes>
-          <Route path="/chat" element={<Chat />} />
+          <Route path="/chat" element={<ChatPage />} />
           <Route path="/userprofile" element={<UserProfilePage />} /> {}
         </Routes>
       </Router>
