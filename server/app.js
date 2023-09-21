@@ -6,7 +6,7 @@ const WebSocket = require('ws');
 const cors = require('cors');
 const mysql = require('mysql');
 const sequelize = require('./config/database'); 
-const UserProfile = require('./models/UserProfile'); 
+const { UserProfile, ChatRoom, Message } = require('./models');  // 引入所有模型
 
 require('dotenv').config();
 const userProfileRoutes = require('./routes/userProfileRoutes');
