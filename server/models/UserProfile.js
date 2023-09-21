@@ -2,6 +2,13 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
 const UserProfile = sequelize.define('UserProfile', {
+  userId: {  
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    unique: true,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   profilePicture: {
     type: DataTypes.STRING,
     allowNull: true,

@@ -8,7 +8,7 @@ const ChatPage = () => {
     const [selectedUser, setSelectedUser] = useState(null);
     const socketRef = useRef(null);
     const users = [
-        { username: 'Alice', profilePicture: '/path/to/alice.jpg' },
+        { username: 'Alice', profilePicture: '' },
         // ...
     ];
     const messages = [
@@ -17,13 +17,16 @@ const ChatPage = () => {
 
     useEffect(() => {
       socketRef.current = io(process.env.REACT_APP_WS_URL || 'http://localhost:3000');
-
+    
       socketRef.current.on('connect', () => {
         console.log('Socket.io connected');
       });
-
-      // Add more socket event listeners as needed
-
+    
+      socketRef.current.on('privateMessage', (message) => {
+        console.log('Received private message:', message);
+        // 在這裡更新你的 messages 狀態
+      });
+    
       return () => {
         socketRef.current.disconnect();
       };
