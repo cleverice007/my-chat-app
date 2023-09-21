@@ -34,7 +34,11 @@ db.connect((err) => {
 
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const io = socketIo(server, {
+  cors: {
+    origin: '*',
+  },
+});
 app.use(cors());
 
 //使用到的路由
@@ -42,35 +46,26 @@ app.use('/', userProfileRoutes);
 
 
 let users = {};
+io.on('connection', (socket) => {
+  socket.on('init', (username) => {
+    socket.username = username;
+    users[username] = socket;
+  });
 
-wss.on('connection', (ws) => {
-  ws.on('message', (message) => {
-    let parsedMessage = JSON.parse(message);
-
-    // 如果是第一次連接，根據"from"字段設置用戶名
-    if (parsedMessage.from && !ws.username) {
-      ws.username = parsedMessage.from;
-      users[ws.username] = ws;
-    }
-
-    switch (parsedMessage.type) {
-      case 'message':
-        const targetWs = users[parsedMessage.to];
-        if (targetWs && targetWs.readyState === WebSocket.OPEN) {
-          targetWs.send(
-            JSON.stringify({
-              type: 'message',
-              from: parsedMessage.from,
-              content: parsedMessage.content,
-            })
-          );
-        } else {
-          console.log("Target WebSocket is not available.");
-        }
-        break;
+  socket.on('privateMessage', (data) => {
+    const { to, message } = data;
+    const targetSocket = users[to];
+    if (targetSocket) {
+      targetSocket.emit('privateMessage', {
+        from: socket.username,
+        message,
+      });
+    } else {
+      console.log("Target user is not connected.");
     }
   });
 });
+
 
 sequelize.sync().then(() => {  // 初始化資料庫和資料表
   console.log('Database & tables created!');
