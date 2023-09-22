@@ -66,18 +66,17 @@ io.on('connection', (socket) => {
 });
 
 
-UserProfile.sync()
+UserProfile.sync({ force: true })
   .then(() => {
     console.log('UserProfile table created!');
-    return ChatRoom.sync();
+    return ChatRoom.sync({ force: true });
   })
   .then(() => {
     console.log('ChatRoom table created!');
-    return Message.sync();
+    return Message.sync({ force: true });
   })
   .then(() => {
     console.log('Message table created!');
-    // 這裡開始你的應用邏輯，例如啟動 web 服務器
   })
   .catch(err => {
     console.error('An error occurred:', err);
