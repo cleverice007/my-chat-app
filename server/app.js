@@ -65,7 +65,7 @@ io.on('connection', (socket) => {
   });
 });
 
-
+/*
 UserProfile.sync({ force: true })
   .then(() => {
     console.log('UserProfile table created!');
@@ -81,8 +81,24 @@ UserProfile.sync({ force: true })
   .catch(err => {
     console.error('An error occurred:', err);
   });
-
-
+*/
+  UserProfile.sync()
+  .then(() => {
+    console.log('UserProfile table checked!');
+    return ChatRoom.sync();
+  })
+  .then(() => {
+    console.log('ChatRoom table checked!');
+    return Message.sync();
+  })
+  .then(() => {
+    console.log('Message table checked!');
+    // 這裡開始你的應用邏輯，例如啟動 web 服務器
+  })
+  .catch(err => {
+    console.error('An error occurred:', err);
+  });
+  
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || '0.0.0.0';
 server.listen(port, host, () => {
