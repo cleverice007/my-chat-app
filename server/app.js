@@ -66,9 +66,22 @@ io.on('connection', (socket) => {
 });
 
 
-sequelize.sync().then(() => {  // 初始化資料庫和資料表
-  console.log('Database & tables created!');
-});
+UserProfile.sync()
+  .then(() => {
+    console.log('UserProfile table created!');
+    return ChatRoom.sync();
+  })
+  .then(() => {
+    console.log('ChatRoom table created!');
+    return Message.sync();
+  })
+  .then(() => {
+    console.log('Message table created!');
+    // 這裡開始你的應用邏輯，例如啟動 web 服務器
+  })
+  .catch(err => {
+    console.error('An error occurred:', err);
+  });
 
 
 const port = process.env.PORT || 3000;
