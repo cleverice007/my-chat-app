@@ -14,9 +14,9 @@ const ChatPage = () => {
     const messages = [
         // Fetch these from your state or server
     ];
-
+    // || 'http://localhost:3000'
     useEffect(() => {
-      socketRef.current = io(process.env.REACT_APP_WS_URL || 'http://localhost:3000');
+      socketRef.current = io(process.env.REACT_APP_WS_URL );
     
       socketRef.current.on('connect', () => {
         console.log('Socket.io connected');
