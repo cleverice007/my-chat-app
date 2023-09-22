@@ -11,7 +11,7 @@ const ChatRoom = sequelize.define('ChatRoom', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'UserProfile',
+      model: 'user_profiles',
       key: 'userId',
     },
   },
@@ -19,7 +19,7 @@ const ChatRoom = sequelize.define('ChatRoom', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'UserProfile', 
+      model: 'user_profiles', 
       key: 'userId',
     },
   },

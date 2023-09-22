@@ -11,7 +11,7 @@ const Message = sequelize.define('Message', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'ChatRooms',
+      model: 'chat_rooms',
       key: 'chatRoomId',
     },
   },
@@ -19,7 +19,7 @@ const Message = sequelize.define('Message', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'UserProfiles',
+      model: 'user_profiles',
       key: 'userId',
     },
   },
