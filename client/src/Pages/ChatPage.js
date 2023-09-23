@@ -25,7 +25,7 @@ const ChatPage = () => {
         // 在這裡更新你的 messages 狀態
       });
 
-      axios.get('/api/userprofiles') 
+      axios.get('/userprofiles') 
       .then(response => {
         setUsers(response.data);
       })

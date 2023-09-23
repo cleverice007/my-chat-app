@@ -47,7 +47,7 @@ const [profilePicture, setprofilePicture] = useState(null);
     form.append('location', formData.location);
 
     try {
-      const apiUrl = "/api/userprofiles";
+      const apiUrl = "/userprofiles";
       const response = await axios.post(apiUrl, form, {
         headers: {
           'Content-Type': 'multipart/form-data',
