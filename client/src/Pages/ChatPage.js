@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import axios from 'axios'; 
 import UserCard from '../components/UserCard';
 import ChatPanel from '../components/ChatPanel';
 import Navbar from '../components/Navbar';
@@ -7,10 +8,7 @@ import io from 'socket.io-client';
 const ChatPage = () => {
     const [selectedUser, setSelectedUser] = useState(null);
     const socketRef = useRef(null);
-    const users = [
-        { username: 'Alice', profilePicture: '' },
-        // ...
-    ];
+    const [users, setUsers] = useState([]); 
     const messages = [
         // Fetch these from your state or server
     ];
@@ -26,6 +24,15 @@ const ChatPage = () => {
         console.log('Received private message:', message);
         // 在這裡更新你的 messages 狀態
       });
+
+      axios.get('/api/userprofiles') 
+      .then(response => {
+        setUsers(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching user profiles:', error);
+      });
+
     
       return () => {
         socketRef.current.disconnect();
@@ -42,9 +49,9 @@ const ChatPage = () => {
               {users.map((user, index) => (
                 <UserCard
                   key={index}
-                  username={user.username}
+                  username={user.name}
                   profilePicture={user.profilePicture}
-                  onClick={() => setSelectedUser(user.username)}
+                  onClick={() => setSelectedUser(user.name)}
                   socket={socketRef.current}
                 />
               ))}
