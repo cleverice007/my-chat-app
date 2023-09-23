@@ -26,6 +26,7 @@ const uploadMiddleware = upload.single('profilePicture');
 module.exports.uploadMiddleware = uploadMiddleware;
 
 
+// 提交 user profile
 module.exports.submitUserProfile = async (req, res) => {
   const userProfileData = req.body;
   const file = req.file; 
@@ -51,6 +52,16 @@ module.exports.submitUserProfile = async (req, res) => {
   }
 };
 
+// 返回所有user profile，chat 頁面的左邊欄位，最右邊欄位的個人資料部分
+module.exports.getAllUserProfiles = async (req, res) => {
+  try {
+    const users = await UserProfile.findAll();
+    res.json(users);
+  } catch (error) {
+    console.log("Error fetching all User Profiles:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 
 
