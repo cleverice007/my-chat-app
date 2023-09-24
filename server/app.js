@@ -9,6 +9,7 @@ const { UserProfile, ChatRoom, Message } = require('./models');  // 引入所有
 
 require('dotenv').config();
 const userProfileRoutes = require('./routes/userProfileRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 
 /*
 // 資料庫連接設定
@@ -42,6 +43,7 @@ app.use(cors());
 
 //使用到的路由
 app.use('/', userProfileRoutes); 
+app.use('/', chatRoutes); 
 
 
 let users = {};
