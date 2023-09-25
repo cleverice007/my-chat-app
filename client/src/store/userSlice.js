@@ -3,23 +3,21 @@ import { createSlice } from '@reduxjs/toolkit';
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    username: '',
-    targetUsername: '',
-    messages: [],
+    profilePicture: null,
+    name: '',
+    age: '18',
+    gender: 'Male',
+    aboutMe: '',
+    interests: [],
+    location: '',
   },
   reducers: {
-    setUsername: (state, action) => {
-      state.username = action.payload;
-    },
-    setTargetUsername: (state, action) => {
-      state.targetUsername = action.payload;
-    },
-    addMessage: (state, action) => {
-      state.messages.push(action.payload);
+    setProfileData: (state, action) => {
+      Object.assign(state, action.payload);
     },
   },
 });
 
-export const { setUsername, setTargetUsername, addMessage } = userSlice.actions;
-
+export const { setProfileData } = userSlice.actions;
 export default userSlice.reducer;
+
