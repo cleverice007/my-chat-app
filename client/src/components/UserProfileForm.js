@@ -53,18 +53,10 @@ const [profilePicture, setprofilePicture] = useState(null);
           'Content-Type': 'multipart/form-data',
         },
       });
-
+      const updatedData = response.data;
       // 將資料存到 Redux store
-      dispatch(setProfileData({
-        profilePicture,
-        name: formData.name,
-        age: formData.age,
-        gender: formData.gender,
-        aboutMe: formData.aboutMe,
-        interests: formData.interests,
-        location: formData.location
-      }));
-      
+      dispatch(setProfileData(updatedData));
+
       console.log("API response:", response.data);
     } catch (error) {
       console.log("API Error:", error);

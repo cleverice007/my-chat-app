@@ -3,9 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
+    userId: null,
     profilePicture: null,
     name: '',
-    age: '18',
+    age: 18, 
     gender: 'Male',
     aboutMe: '',
     interests: [],

@@ -36,7 +36,7 @@ module.exports.submitUserProfile = async (req, res) => {
     const interestsArray = JSON.parse(userProfileData.interests);
 
     const newUserProfile = await UserProfile.create({
-      profilePicture: file.location, // 這裡是上傳到 S3 後得到的 URL
+      profilePicture: file.location,
       name: userProfileData.name,
       age: userProfileData.age,
       gender: userProfileData.gender,
@@ -45,12 +45,26 @@ module.exports.submitUserProfile = async (req, res) => {
       location: userProfileData.location
     });
 
-    res.json({ message: "User profile submitted successfully!" });
+    // 只返回Redux需要的屬性
+    const filteredResponse = {
+      userId: newUserProfile.userId,
+      profilePicture: newUserProfile.profilePicture,
+      name: newUserProfile.name,
+      age: newUserProfile.age,
+      gender: newUserProfile.gender,
+      aboutMe: newUserProfile.aboutMe,
+      interests: newUserProfile.interests,
+      location: newUserProfile.location
+    };
+
+    res.json(filteredResponse);
+
   } catch (error) {
     console.log("Error Creating User Profile:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 // 返回所有user profile，chat 頁面的左邊欄位，最右邊欄位的個人資料部分
 module.exports.getAllUserProfiles = async (req, res) => {
