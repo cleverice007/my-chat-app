@@ -1,4 +1,7 @@
-const { ChatRoom, Message } = require('../models'); // 請根據你的目錄結構進行調整
+const ChatRoom = require('../models/ChatRoom');
+const Message = require('../models/Message');
+const { Op } = require('sequelize');
+
 
 module.exports.createOrFetchChatRoom = async (req, res) => {
   try {
@@ -39,5 +42,37 @@ module.exports.createOrFetchChatRoom = async (req, res) => {
   } catch (error) {
     console.error("Error fetching or creating chat room:", error);
     res.status(500).send("Internal Server Error");
+  }
+};
+
+module.exports.getChatMessages = async (req, res) => {
+  const { user1Id, user2Id } = req.query;
+
+  try {
+    // 尋找 chat room
+    const chatRoom = await ChatRoom.findOne({
+      where: {
+        [Op.or]: [
+          { user1Id: user1Id, user2Id: user2Id },
+          { user1Id: user2Id, user2Id: user1Id }
+        ]
+      }
+    });
+
+    if (!chatRoom) {
+      return res.status(404).json({ message: "Chat room not found" });
+    }
+
+    // 獲取該 chat room 的訊息
+    const messages = await Message.findAll({
+      where: { chatRoomId: chatRoom.chatRoomId },
+      order: [['createdAt', 'ASC']]
+    });
+
+    res.json(messages);
+
+  } catch (error) {
+    console.error('Error fetching chat messages:', error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
