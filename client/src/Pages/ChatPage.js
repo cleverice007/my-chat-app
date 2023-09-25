@@ -4,6 +4,8 @@ import UserCard from '../components/UserCard';
 import ChatPanel from '../components/ChatPanel';
 import Navbar from '../components/Navbar';
 import io from 'socket.io-client';
+import { useSelector } from 'react-redux';  
+
 
 const ChatPage = () => {
     const [selectedUser, setSelectedUser] = useState(null);
@@ -12,6 +14,7 @@ const ChatPage = () => {
     const messages = [
         // Fetch these from your state or server
     ];
+    const loggedInUsername = useSelector(state => state.user.name);  // 從 Redux 獲取當前登入用戶名
     // || 'http://localhost:3000'
     useEffect(() => {
       socketRef.current = io(process.env.REACT_APP_WS_URL );
@@ -27,11 +30,13 @@ const ChatPage = () => {
 
       axios.get('/api/userprofiles') 
       .then(response => {
-        setUsers(response.data);
+        const filteredUsers = response.data.filter(user => user.name !== loggedInUsername);  // 過濾掉當前登入用戶
+        setUsers(filteredUsers);
       })
       .catch(error => {
         console.error('Error fetching user profiles:', error);
       });
+
 
     
       return () => {
