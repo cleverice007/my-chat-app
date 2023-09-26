@@ -23,7 +23,7 @@ const ChatPage = () => {
       console.log("Chat room info:", chatRoom);
       console.log("Messages:", messages);
 
-      // 更新你的 messages 狀態（這裡假設你已經用 React 的 useState 定義了 setMessages）
+      // 更新 messages 狀態
       setMessages(messages);
 
     } catch (error) {
@@ -31,35 +31,35 @@ const ChatPage = () => {
     }
   };
 
-
-  // || 'http://localhost:3000'
   useEffect(() => {
-    socketRef.current = io(process.env.REACT_APP_WS_URL);
+    if (loggedInUserId) {
+      socketRef.current = io(process.env.REACT_APP_WS_URL);
 
-    socketRef.current.on('connect', () => {
-      console.log('Socket.io connected');
-    });
-
-    socketRef.current.on('privateMessage', (message) => {
-      console.log('Received private message:', message);
-      // 在這裡更新你的 messages 狀態
-    });
-
-    axios.get('/api/userprofiles')
-      .then(response => {
-        const filteredUsers = response.data.filter(user => user.userId !== loggedInUserId); // 過濾掉當前登入用戶
-        setUsers(filteredUsers);
-      })
-      .catch(error => {
-        console.error('Error fetching user profiles:', error);
+      socketRef.current.on('connect', () => {
+        console.log('Socket.io connected');
       });
 
+      socketRef.current.on('privateMessage', (message) => {
+        console.log('Received private message:', message);
+      });
 
+      axios.get('/api/userprofiles')
+        .then(response => {
+          const filteredUsers = response.data.filter(user => user.userId !== loggedInUserId); // 過濾掉當前登入用戶
+          setUsers(filteredUsers);
+        })
+        .catch(error => {
+          console.error('Error fetching user profiles:', error);
+        });
+    }
 
     return () => {
-      socketRef.current.disconnect();
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+      }
     };
-  }, []);
+  }, [loggedInUserId]);  // 注意這裡添加了 loggedInUserId 作為依賴
+
 
   return (
     <div className="chat-page flex flex-col">
