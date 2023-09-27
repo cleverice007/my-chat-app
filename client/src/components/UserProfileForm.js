@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setProfileData } from '../store/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 const UserProfileForm = () => {
@@ -35,6 +36,8 @@ const UserProfileForm = () => {
     });
   };
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
