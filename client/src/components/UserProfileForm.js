@@ -57,8 +57,10 @@ const [profilePicture, setprofilePicture] = useState(null);
       });
       const updatedData = response.data;
       // 將資料存到 Redux store
+      console.log("Before dispatch");
       dispatch(setProfileData(updatedData));
-
+      console.log("After dispatch");
+      
       console.log("API response:", response.data);
     } catch (error) {
       console.log("API Error:", error);
