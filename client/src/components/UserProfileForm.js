@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux'; 
-import { setProfileData } from '../store/userSlice'; 
+import { useDispatch } from 'react-redux';
+import { setProfileData } from '../store/userSlice';
 
 
 const UserProfileForm = () => {
   const [formData, setFormData] = useState({
-    profilePicture: null ,
+    profilePicture: null,
     name: '',
     age: '18',
     gender: 'Male',
@@ -14,11 +14,11 @@ const UserProfileForm = () => {
     interests: [],
     location: ''
   });
-  
-// 用於儲存 Base64 編碼的預覽圖片
-const [profilePicturePreview, setProfilePicturePreview] = useState(null);
-// 用於儲存原始的 File 物件
-const [profilePicture, setprofilePicture] = useState(null);
+
+  // 用於儲存 Base64 編碼的預覽圖片
+  const [profilePicturePreview, setProfilePicturePreview] = useState(null);
+  // 用於儲存原始的 File 物件
+  const [profilePicture, setprofilePicture] = useState(null);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -57,11 +57,10 @@ const [profilePicture, setprofilePicture] = useState(null);
       });
       const updatedData = response.data;
       // 將資料存到 Redux store
-      console.log("Before dispatch");
       dispatch(setProfileData(updatedData));
-      console.log("After dispatch");
-      
-      console.log("API response:", response.data);
+      // 使用 SPA 的形式跳轉到 ChatPage
+      navigate('/chat');
+
     } catch (error) {
       console.log("API Error:", error);
     }
@@ -79,12 +78,12 @@ const [profilePicture, setprofilePicture] = useState(null);
       reader.readAsDataURL(file);
     }
   };
-  
+
 
   return (
     <form className="p-4 max-w-xl mx-auto bg-white rounded shadow-lg" onSubmit={handleSubmit}>
-        {/* Profile Picture Preview */}
-        {profilePicturePreview && (
+      {/* Profile Picture Preview */}
+      {profilePicturePreview && (
         <div className="mb-4">
           <img src={profilePicturePreview} alt="Profile Preview" style={{
             borderRadius: '50%',
@@ -93,8 +92,8 @@ const [profilePicture, setprofilePicture] = useState(null);
           }} />
         </div>
       )}
-     {/* Profile Picture Upload */}
-     <div className="mb-4">
+      {/* Profile Picture Upload */}
+      <div className="mb-4">
         <label>Profile Picture:</label>
         <input type="file" name="profilePicture" onChange={handleFileChange} />
       </div>
