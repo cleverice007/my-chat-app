@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux'; 
+import { setProfileData } from '../store/userSlice'; 
 
 
 const UserProfileForm = () => {
@@ -32,7 +34,7 @@ const [profilePicture, setprofilePicture] = useState(null);
       interests: value
     });
   };
-
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
