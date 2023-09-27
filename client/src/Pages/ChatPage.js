@@ -14,6 +14,8 @@ const ChatPage = () => {
   const [messages, setMessages] = useState([]);
 
   const loggedInUserId = useSelector(state => state.user.userId);
+  console.log("Outside useEffect, loggedInUserId:", loggedInUserId); 
+
 
   const fetchOrCreateChatAndFetchMessages = async (loggedInUserId, selectedUserId) => {
     try {
