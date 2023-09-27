@@ -14,6 +14,7 @@ export const userSlice = createSlice({
   },
   reducers: {
     setProfileData: (state, action) => {
+      console.log("setProfileData action:", action.payload); 
       Object.assign(state, action.payload);
     },
   },
