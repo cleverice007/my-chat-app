@@ -32,8 +32,8 @@ const ChatPage = () => {
   };
 
   useEffect(() => {
-    console.log("Current loggedInUserId:", loggedInUserId); 
     if (loggedInUserId) {
+      console.log("Current loggedInUserId:", loggedInUserId);  // 追踪 loggedInUserId
 
       socketRef.current = io(process.env.REACT_APP_WS_URL);
 
