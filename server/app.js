@@ -1,18 +1,3 @@
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
-const { Op } = require('sequelize'); 
-
-
-const cors = require('cors');
-const mysql = require('mysql');
-const sequelize = require('./config/database'); 
-const { UserProfile, ChatRoom, Message } = require('./models');  // 引入所有模型
-
-require('dotenv').config();
-const userProfileRoutes = require('./routes/userProfileRoutes');
-const chatRoutes = require('./routes/chatRoutes');
-
 /*
 // 資料庫連接設定
 const db = mysql.createConnection({
@@ -32,7 +17,18 @@ db.connect((err) => {
   console.log('Connected to MySQL database');
 });
 */
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+const { Op } = require('sequelize');
+const cors = require('cors');
+const mysql = require('mysql');
+const sequelize = require('./config/database');
+const { UserProfile, ChatRoom, Message } = require('./models');
 
+require('dotenv').config();
+const userProfileRoutes = require('./routes/userProfileRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 
 const app = express();
 const server = http.createServer(app);
@@ -41,14 +37,13 @@ const io = socketIo(server, {
     origin: '*',
   },
 });
+
 app.use(cors());
-
-//使用到的路由
-app.use('/', userProfileRoutes); 
-app.use('/', chatRoutes); 
-
+app.use('/', userProfileRoutes);
+app.use('/', chatRoutes);
 
 let users = {};
+
 io.on('connection', (socket) => {
   socket.on('init', (username) => {
     socket.username = username;
@@ -56,33 +51,30 @@ io.on('connection', (socket) => {
   });
 
   socket.on('privateMessage', async (data) => {
-    const { from, to, message } = data;  // 直接使用前端傳來的 data
+    const { from, to, message } = data;
     try {
-      // 尋找或創建聊天室
       const [chatRoom] = await ChatRoom.findOrCreate({
         where: {
           [Op.or]: [
             { user1Id: from, user2Id: to },
-            { user1Id: to, user2Id: from }
-          ]
-        }
+            { user1Id: to, user2Id: from },
+          ],
+        },
       });
-      
+
       const chatRoomId = chatRoom.get('chatRoomId');
-      
-      // 將訊息存入資料庫
+
       await Message.create({
         chatRoomId,
         userId: from,
-        content: message
+        content: message,
       });
-      
-      // 轉傳訊息至目標用戶
+
       const targetSocket = users[to];
       if (targetSocket) {
         targetSocket.emit('privateMessage', {
           from,
-          message
+          message,
         });
       } else {
         console.log("Target user is not connected.");
@@ -91,26 +83,9 @@ io.on('connection', (socket) => {
       console.error("Error handling private message:", err);
     }
   });
-  
+});
 
-/*
-UserProfile.sync({ force: true })
-  .then(() => {
-    console.log('UserProfile table created!');
-    return ChatRoom.sync({ force: true });
-  })
-  .then(() => {
-    console.log('ChatRoom table created!');
-    return Message.sync({ force: true });
-  })
-  .then(() => {
-    console.log('Message table created!');
-  })
-  .catch(err => {
-    console.error('An error occurred:', err);
-  });
-*/
-  UserProfile.sync()
+UserProfile.sync()
   .then(() => {
     console.log('UserProfile table checked!');
     return ChatRoom.sync();
@@ -121,12 +96,11 @@ UserProfile.sync({ force: true })
   })
   .then(() => {
     console.log('Message table checked!');
-    // 這裡開始你的應用邏輯，例如啟動 web 服務器
   })
   .catch(err => {
     console.error('An error occurred:', err);
   });
-  
+
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || '0.0.0.0';
 server.listen(port, host, () => {
