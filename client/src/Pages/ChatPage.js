@@ -65,19 +65,32 @@ const ChatPage = () => {
 
   return (
     <div>
-      <Navbar />
-      <div className="chat-page">
-        <div className="user-list">
-          {users.map(user => (
-            <UserCard key={user.userId} user={user} onClick={() => fetchOrCreateChatAndFetchMessages(loggedInUserId, user.userId)} />
-          ))}
+      <div className="chat-page flex flex-col">
+        <div className="upper-section mb-10">
+          <Navbar />
         </div>
-        <div className="chat-panel">
-          {selectedUserId && <ChatPanel messages={messages} socket={socketRef.current} loggedInUserId={loggedInUserId} selectedUserId={selectedUserId} />}
+        <div className="lower-section flex">
+          <div className="user-list w-1/4">
+            {users.map((user, index) => (
+              <UserCard
+                key={index}
+                userId={user.userId}
+                username={user.name}
+                profilePicture={user.profilePicture}
+                onClick={() => {
+                  fetchOrCreateChatAndFetchMessages(loggedInUserId, user.userId);
+                  setSelectedUserId(user.userId);
+                }}
+              />
+            ))}
+          </div>
+          <div className="chat-section w-3/4">
+          {selectedUserId && <ChatPanel messages={messages} socket={socketRef.current} loggedInUserId={loggedInUserId} selectedUserId={selectedUserId} />}          </div>
         </div>
       </div>
     </div>
   );
+  
 };
 
 export default ChatPage;
