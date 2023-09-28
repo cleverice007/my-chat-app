@@ -15,12 +15,6 @@ const ChatPanel = ({ messages, socket, loggedInUserId, selectedUserId }) => {
     setLocalMessages([...localMessages, newMessage]);
   };
 
-  const receiveMessage = () => {
-    socket?.on('privateMessage', (message) => {
-      console.log("接收到的私人訊息:", message);
-      setLocalMessages(prevMessages => [...prevMessages, message]);
-    });
-  };
 
   const handleTextareaChange = (e) => {
     setMessageInput(e.target.value);
@@ -35,8 +29,10 @@ const ChatPanel = ({ messages, socket, loggedInUserId, selectedUserId }) => {
     }
 
     // Receive messages
-    receiveMessage();
-
+  socket?.on('privateMessage', (message) => {
+    console.log("接收到的私人訊息:", message);
+    setLocalMessages(prevMessages => [...prevMessages, message]);
+  });
     // Cleanup
     return () => {
       socket.off('privateMessage');
