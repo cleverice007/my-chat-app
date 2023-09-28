@@ -1,6 +1,8 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+const { Op } = require('sequelize'); 
+
 
 const cors = require('cors');
 const mysql = require('mysql');
@@ -53,19 +55,43 @@ io.on('connection', (socket) => {
     users[username] = socket;
   });
 
-  socket.on('privateMessage', (data) => {
-    const { to, message } = data;
-    const targetSocket = users[to];
-    if (targetSocket) {
-      targetSocket.emit('privateMessage', {
-        from: socket.username,
-        message,
+  socket.on('privateMessage', async (data) => {
+    const { from, to, message } = data;  // 直接使用前端傳來的 data
+    try {
+      // 尋找或創建聊天室
+      const [chatRoom] = await ChatRoom.findOrCreate({
+        where: {
+          [Op.or]: [
+            { user1Id: from, user2Id: to },
+            { user1Id: to, user2Id: from }
+          ]
+        }
       });
-    } else {
-      console.log("Target user is not connected.");
+      
+      const chatRoomId = chatRoom.get('chatRoomId');
+      
+      // 將訊息存入資料庫
+      await Message.create({
+        chatRoomId,
+        userId: from,
+        content: message
+      });
+      
+      // 轉傳訊息至目標用戶
+      const targetSocket = users[to];
+      if (targetSocket) {
+        targetSocket.emit('privateMessage', {
+          from,
+          message
+        });
+      } else {
+        console.log("Target user is not connected.");
+      }
+    } catch (err) {
+      console.error("Error handling private message:", err);
     }
   });
-});
+  
 
 /*
 UserProfile.sync({ force: true })
