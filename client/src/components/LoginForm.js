@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';  
+import { useNavigate } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
 import { setProfileData } from '../store/userSlice';
 import { useDispatch } from 'react-redux';
@@ -9,35 +9,37 @@ import { useDispatch } from 'react-redux';
 const LoginForm = () => {
   const dispatch = useDispatch();
   const { register, handleSubmit, errors } = useForm();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data, action) => {
     try {
-      const response = await axios.post('/api/login', data);
+      let endpoint = action === 'login' ? '/api/login' : '/api/register';
+      const response = await axios.post(endpoint, data);
+  
       if (response.data.success) {
-        // 登入成功
-        console.log("Login successful: ", response.data);
-
+        console.log("Operation successful: ", response.data);
+        
         const decoded = jwt_decode(response.data.token); // 解密 token
         console.log("Decoded JWT: ", decoded);
-
+  
         // 使用解密后的数据更新 Redux store
         dispatch(setProfileData({
           userId: decoded.id,
         }));
-
+  
         // 使用 navigate 跳轉到 UserProfile 頁面
         navigate('/userprofile');
       } else {
-        console.log("Login failed: ", response.data.message);
+        console.log("Operation failed: ", response.data.message);
       }
     } catch (error) {
-      console.error("An error occurred during login: ", error);
+      console.error("An error occurred: ", error);
     }
   };
+  
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="p-8 rounded bg-gray-100">
+    <form className="p-8 rounded bg-gray-100">
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
         <input 
@@ -59,10 +61,16 @@ const LoginForm = () => {
         {errors.password && <span className="text-red-500 text-xs italic">This field is required</span>}
       </div>
       <button 
-        type="submit" 
+        onClick={() => handleSubmit((data) => onSubmit(data, 'login'))()}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       >
         Login
+      </button>
+      <button 
+        onClick={() => handleSubmit((data) => onSubmit(data, 'register'))()}
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4"
+      >
+        Register
       </button>
     </form>
   );

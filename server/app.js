@@ -29,6 +29,8 @@ const { UserProfile, ChatRoom, Message } = require('./models');
 require('dotenv').config();
 const userProfileRoutes = require('./routes/userProfileRoutes');
 const chatRoutes = require('./routes/chatRoutes');
+const authRoutes = require('./routes/authRoutes');
+
 
 const app = express();
 const server = http.createServer(app);
@@ -41,6 +43,7 @@ const io = socketIo(server, {
 app.use(cors());
 app.use('/', userProfileRoutes);
 app.use('/', chatRoutes);
+app.use('/', authRoutes);
 
 let users = {};
 

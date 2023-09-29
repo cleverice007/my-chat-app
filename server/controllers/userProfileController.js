@@ -36,6 +36,7 @@ module.exports.submitUserProfile = async (req, res) => {
     const interestsArray = JSON.parse(userProfileData.interests);
 
     const newUserProfile = await UserProfile.create({
+      userId: userId,
       profilePicture: file.location,
       name: userProfileData.name,
       age: userProfileData.age,
@@ -47,7 +48,6 @@ module.exports.submitUserProfile = async (req, res) => {
 
     // 只返回Redux需要的屬性
     const filteredResponse = {
-      userId: newUserProfile.userId,
       profilePicture: newUserProfile.profilePicture,
       name: newUserProfile.name,
       age: newUserProfile.age,

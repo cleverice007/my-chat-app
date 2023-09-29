@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const UserProfileForm = () => {
+  const userId = useSelector((state) => state.user.userId); // 從 Redux store 中取得 userId
   const [formData, setFormData] = useState({
     profilePicture: null,
     name: '',
@@ -43,6 +44,7 @@ const UserProfileForm = () => {
     e.preventDefault();
 
     const form = new FormData();
+    form.append('userId', userId); 
     form.append('profilePicture', profilePicture);
     form.append('name', formData.name);
     form.append('age', formData.age);
