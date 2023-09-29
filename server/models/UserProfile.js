@@ -7,7 +7,10 @@ const UserProfile = sequelize.define('UserProfile', {
     allowNull: false,
     unique: true,
     primaryKey: true,
-    autoIncrement: true,
+    references: {
+      model: 'UserAuths',
+      key: 'id'  // 對應userauth 自動生成的id
+    }
   },
   profilePicture: {
     type: DataTypes.STRING,
