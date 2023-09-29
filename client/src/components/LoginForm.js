@@ -2,8 +2,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';  
+import jwt_decode from "jwt-decode";
+import { setProfileData } from '../store/userSlice';
+import { useDispatch } from 'react-redux';
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
   const { register, handleSubmit, errors } = useForm();
   const navigate = useNavigate(); 
 
@@ -13,6 +17,14 @@ const LoginForm = () => {
       if (response.data.success) {
         // 登入成功
         console.log("Login successful: ", response.data);
+
+        const decoded = jwt_decode(response.data.token); // 解密 token
+        console.log("Decoded JWT: ", decoded);
+
+        // 使用解密后的数据更新 Redux store
+        dispatch(setProfileData({
+          userId: decoded.id,
+        }));
 
         // 使用 navigate 跳轉到 UserProfile 頁面
         navigate('/userprofile');
