@@ -14,8 +14,8 @@ Message.belongsTo(UserProfile, { foreignKey: 'userId' });
 UserProfile.hasMany(Message, { foreignKey: 'userId' });
 
 // 建立 UserProfile 和 UserAuth 之間的一對一關聯
-UserProfile.hasOne(UserAuth, { foreignKey: 'userId' });
-UserAuth.belongsTo(UserProfile, { foreignKey: 'userId' });
+UserAuth.hasOne(UserProfile, { foreignKey: 'userId' });
+UserProfile.belongsTo(UserAuth, { foreignKey: 'userId' });
 
 // 匯出所有模型
 module.exports = {
