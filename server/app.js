@@ -89,25 +89,26 @@ io.on('connection', (socket) => {
 });
 // app.js
 
-Message.sync({ force: true })
+Message.drop()
   .then(() => {
-    console.log('Message table recreated!');
-    return ChatRoom.sync({ force: true });
+    console.log('Message table dropped');
+    return ChatRoom.drop();
   })
   .then(() => {
-    console.log('ChatRoom table recreated!');
-    return UserProfile.sync({ force: true });
+    console.log('ChatRoom table dropped');
+    return UserProfile.drop();
   })
   .then(() => {
-    console.log('UserProfile table recreated!');
-    return UserAuth.sync({ force: true });
+    console.log('UserProfile table dropped');
+    return UserAuth.drop();
   })
   .then(() => {
-    console.log('UserAuth table recreated!');
+    console.log('UserAuth table dropped');
   })
   .catch(err => {
     console.error('An error occurred:', err);
   });
+
 
 
 const port = process.env.PORT || 3000;
