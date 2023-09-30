@@ -109,6 +109,7 @@ Message.sync({ force: true })
     console.error('An error occurred:', err);
   });
 
+
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || '0.0.0.0';
 server.listen(port, host, () => {
