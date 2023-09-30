@@ -7,6 +7,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ChatPage from './Pages/ChatPage.js';
 import UserProfilePage from './Pages/UserProfilePage'; 
+import LoginPage from './Pages/LoginPage'; 
 import store from './store/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
