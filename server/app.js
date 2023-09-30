@@ -89,25 +89,26 @@ io.on('connection', (socket) => {
 });
 // app.js
 
-Message.drop()
+UserAuth.sync()
   .then(() => {
-    console.log('Message table dropped');
-    return ChatRoom.drop();
+    console.log('UserAuth table created');
+    return UserProfile.sync();
   })
   .then(() => {
-    console.log('ChatRoom table dropped');
-    return UserProfile.drop();
+    console.log('UserProfile table created');
+    return ChatRoom.sync();
   })
   .then(() => {
-    console.log('UserProfile table dropped');
-    return UserAuth.drop();
+    console.log('ChatRoom table created');
+    return Message.sync();
   })
   .then(() => {
-    console.log('UserAuth table dropped');
+    console.log('Message table created');
   })
   .catch(err => {
     console.error('An error occurred:', err);
   });
+
 
 
 
