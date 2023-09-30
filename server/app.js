@@ -87,25 +87,28 @@ io.on('connection', (socket) => {
     }
   });
 });
-UserAuth.sync({ force: true })
+// app.js
+
+Message.sync({ force: true })
   .then(() => {
-    console.log('UserAuth table recreated!');
-    return UserProfile.sync({ force: true });
-  })
-  .then(() => {
-    console.log('UserProfile table recreated!');
+    console.log('Message table recreated!');
     return ChatRoom.sync({ force: true });
   })
   .then(() => {
     console.log('ChatRoom table recreated!');
-    return Message.sync({ force: true });
+    return UserProfile.sync({ force: true });
   })
   .then(() => {
-    console.log('Message table recreated!');
+    console.log('UserProfile table recreated!');
+    return UserAuth.sync({ force: true });
+  })
+  .then(() => {
+    console.log('UserAuth table recreated!');
   })
   .catch(err => {
     console.error('An error occurred:', err);
   });
+
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || '0.0.0.0';
 server.listen(port, host, () => {
