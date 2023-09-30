@@ -1,21 +1,34 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setProfileData } from '../store/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 
 const UserProfileForm = () => {
   const userId = useSelector((state) => state.user.userId); // 從 Redux store 中取得 userId
+  const userProfile = useSelector((state) => state.user); // 從 Redux store 中取得 userProfile
   const [formData, setFormData] = useState({
-    profilePicture: null,
-    name: '',
-    age: '18',
-    gender: 'Male',
-    aboutMe: '',
-    interests: [],
-    location: ''
+    profilePicture: userProfile.profilePicture || null,
+    name: userProfile.name || '',
+    age: userProfile.age || '18',
+    gender: userProfile.gender || 'Male',
+    aboutMe: userProfile.aboutMe || '',
+    interests: userProfile.interests || [],
+    location: userProfile.location || ''
   });
+  
+  useEffect(() => {
+    setFormData({
+      profilePicture: userProfile.profilePicture || null,
+      name: userProfile.name || '',
+      age: userProfile.age || '18',
+      gender: userProfile.gender || 'Male',
+      aboutMe: userProfile.aboutMe || '',
+      interests: userProfile.interests || [],
+      location: userProfile.location || ''
+    });
+  }, [userProfile]);
 
   // 用於儲存 Base64 編碼的預覽圖片
   const [profilePicturePreview, setProfilePicturePreview] = useState(null);
