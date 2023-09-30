@@ -24,7 +24,7 @@ const { Op } = require('sequelize');
 const cors = require('cors');
 const mysql = require('mysql');
 const sequelize = require('./config/database');
-const { UserProfile, ChatRoom, Message } = require('./models');
+const { UserAuth,UserProfile, ChatRoom, Message } = require('./models');
 
 require('dotenv').config();
 const userProfileRoutes = require('./routes/userProfileRoutes');
@@ -87,23 +87,25 @@ io.on('connection', (socket) => {
     }
   });
 });
-
-UserProfile.sync()
+UserAuth.sync({ force: true })
   .then(() => {
-    console.log('UserProfile table checked!');
-    return ChatRoom.sync();
+    console.log('UserAuth table recreated!');
+    return UserProfile.sync({ force: true });
   })
   .then(() => {
-    console.log('ChatRoom table checked!');
-    return Message.sync();
+    console.log('UserProfile table recreated!');
+    return ChatRoom.sync({ force: true });
   })
   .then(() => {
-    console.log('Message table checked!');
+    console.log('ChatRoom table recreated!');
+    return Message.sync({ force: true });
+  })
+  .then(() => {
+    console.log('Message table recreated!');
   })
   .catch(err => {
     console.error('An error occurred:', err);
   });
-
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || '0.0.0.0';
 server.listen(port, host, () => {
