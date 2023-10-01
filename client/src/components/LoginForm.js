@@ -8,8 +8,9 @@ import { useDispatch } from 'react-redux';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();  
   const navigate = useNavigate();
+
 
   const onSubmit = async (data, action) => {
     try {
@@ -44,8 +45,7 @@ const LoginForm = () => {
         <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
         <input 
           type="email" 
-          name="email" 
-          ref={register({ required: true })} 
+          {...register('email', { required: true })} 
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         {errors.email && <span className="text-red-500 text-xs italic">This field is required</span>}
@@ -54,8 +54,7 @@ const LoginForm = () => {
         <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
         <input 
           type="password" 
-          name="password" 
-          ref={register({ required: true })} 
+          {...register('password', { required: true })} 
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         {errors.password && <span className="text-red-500 text-xs italic">This field is required</span>}
