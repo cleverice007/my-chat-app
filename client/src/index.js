@@ -20,6 +20,7 @@ root.render(
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/userprofile" element={<UserProfilePage />} /> {}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </Router>
     </Provider>
