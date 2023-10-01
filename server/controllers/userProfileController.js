@@ -26,38 +26,62 @@ const uploadMiddleware = upload.single('profilePicture');
 module.exports.uploadMiddleware = uploadMiddleware;
 
 
-module.exports.loginUser = async (req, res) => {
+// 提交 user profile
+module.exports.submitUserProfile = async (req, res) => {
+  const userProfileData = req.body;
+  const file = req.file; 
+  const fileName = file.key;
+  
   try {
-    const { email, password } = req.body;
+    const interestsArray = JSON.parse(userProfileData.interests);
 
-    // 查找用戶
-    const userAuth = await UserAuth.findOne({ where: { email } });
-    if (!userAuth) {
-      return res.status(400).json({ message: "Email not found" });
+    // 先检查 userId 是否存在
+    const existingUserProfile = await UserProfile.findOne({ where: { userId: userProfileData.userId } });
+
+    if (existingUserProfile) {
+      // 如果存在，更新記錄
+      await UserProfile.update(
+        {
+          profilePicture: file.location,
+          name: userProfileData.name,
+          age: userProfileData.age,
+          gender: userProfileData.gender,
+          aboutMe: userProfileData.aboutMe,
+          interests: interestsArray,
+          location: userProfileData.location
+        },
+        { where: { userId: userProfileData.userId } }
+      );
+    } else {
+      // 如果不存在，創建新的記錄
+      await UserProfile.create({
+        userId: userProfileData.userId,
+        profilePicture: file.location,
+        name: userProfileData.name,
+        age: userProfileData.age,
+        gender: userProfileData.gender,
+        aboutMe: userProfileData.aboutMe,
+        interests: interestsArray,
+        location: userProfileData.location
+      });
     }
 
-    // 核對密碼
-    const validPassword = await bcrypt.compare(password, userAuth.password);
-    if (!validPassword) {
-      return res.status(400).json({ message: "Invalid password" });
-    }
+    // 只返回 Redux 需要的属性
+    const filteredResponse = {
+      profilePicture: file.location,
+      name: userProfileData.name,
+      age: userProfileData.age,
+      gender: userProfileData.gender,
+      aboutMe: userProfileData.aboutMe,
+      interests: interestsArray,
+      location: userProfileData.location
+    };
 
-    // 創建 JWT
-    const token = jwt.sign({ userId: userAuth.id }, 'yourSecretKey', { expiresIn: '1h' });
+    res.json(filteredResponse);
 
-    // 查找對應的 UserProfile
-    const userProfile = await UserProfile.findOne({ where: { userId: userAuth.id } });
-
-    // 返回結果
-    res.status(200).json({
-      success: true,
-      message: 'Login successful',
-      token,
-      userProfile 
-    });
   } catch (error) {
-    console.log('Error Logging In User:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.log("Error Creating User Profile:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
