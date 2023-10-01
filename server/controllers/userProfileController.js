@@ -36,7 +36,7 @@ module.exports.submitUserProfile = async (req, res) => {
     const interestsArray = JSON.parse(userProfileData.interests);
 
     const newUserProfile = await UserProfile.create({
-      userId: userId,
+      userId: userProfileData.userId,
       profilePicture: file.location,
       name: userProfileData.name,
       age: userProfileData.age,
