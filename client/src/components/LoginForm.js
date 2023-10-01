@@ -21,7 +21,7 @@ const LoginForm = () => {
   
         // 更新 Redux store
         dispatch(setProfileData({
-          userId: decoded.userId, 
+          userId: decoded.token, 
           ...userProfile
         }));
   
