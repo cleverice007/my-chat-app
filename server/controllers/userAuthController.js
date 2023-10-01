@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const UserAuth = require('../models/UserAuth'); 
+const UserProfile = require('../models/UserProfile'); 
+
 
 // 註冊用戶
 module.exports.registerUser = async (req, res) => {
