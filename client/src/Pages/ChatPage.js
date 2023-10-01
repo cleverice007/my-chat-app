@@ -61,7 +61,7 @@ const ChatPage = () => {
         socketRef.current.disconnect();
       }
     };
-  }, [loggedInUserId]); // 依賴於 loggedInUserId
+  }, []); 
 
   return (
     <div>
