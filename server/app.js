@@ -41,6 +41,7 @@ const io = socketIo(server, {
 });
 
 app.use(cors());
+app.use(express.json());
 app.use('/', userProfileRoutes);
 app.use('/', chatRoutes);
 app.use('/', authRoutes);
