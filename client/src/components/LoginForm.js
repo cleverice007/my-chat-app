@@ -17,7 +17,15 @@ const LoginForm = () => {
   
       if (response.data.success) {
         const decoded = jwt_decode(response.data.token);
-        dispatch(setProfileData({ userId: decoded.id }));
+        const userProfile = response.data.userProfile;
+  
+        // 更新 Redux store
+        dispatch(setProfileData({
+          userId: decoded.userId, 
+          ...userProfile
+        }));
+  
+        // 跳轉到用戶個人資料頁面
         navigate('/userprofile');
       } else {
         console.log("Operation failed: ", response.data.message);
@@ -26,6 +34,7 @@ const LoginForm = () => {
       console.error("An error occurred: ", error);
     }
   };
+  
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="p-8 rounded bg-gray-100">
