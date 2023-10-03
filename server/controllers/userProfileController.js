@@ -29,46 +29,22 @@ module.exports.uploadMiddleware = uploadMiddleware;
 // 提交 user profile
 module.exports.submitUserProfile = async (req, res) => {
   const userProfileData = req.body;
-  const file = req.file; 
-  const fileName = file.key;
-  
+  const file = req.file;
+
   try {
     const interestsArray = JSON.parse(userProfileData.interests);
 
-    // 先检查 userId 是否存在
+    // 先檢查 userId 是否存在
     const existingUserProfile = await UserProfile.findOne({ where: { userId: userProfileData.userId } });
 
-    if (existingUserProfile) {
-      // 如果存在，更新記錄
-      await UserProfile.update(
-        {
-          profilePicture: file.location,
-          name: userProfileData.name,
-          age: userProfileData.age,
-          gender: userProfileData.gender,
-          aboutMe: userProfileData.aboutMe,
-          interests: interestsArray,
-          location: userProfileData.location
-        },
-        { where: { userId: userProfileData.userId } }
-      );
-    } else {
-      // 如果不存在，創建新的記錄
-      await UserProfile.create({
-        userId: userProfileData.userId,
-        profilePicture: file.location,
-        name: userProfileData.name,
-        age: userProfileData.age,
-        gender: userProfileData.gender,
-        aboutMe: userProfileData.aboutMe,
-        interests: interestsArray,
-        location: userProfileData.location
-      });
+    let profilePictureLocation = existingUserProfile ? existingUserProfile.profilePicture : null;
+
+    if (file) {
+      profilePictureLocation = file.location;
     }
 
-    // 只返回 Redux 需要的属性
-    const filteredResponse = {
-      profilePicture: file.location,
+    const updateData = {
+      profilePicture: profilePictureLocation,
       name: userProfileData.name,
       age: userProfileData.age,
       gender: userProfileData.gender,
@@ -76,6 +52,20 @@ module.exports.submitUserProfile = async (req, res) => {
       interests: interestsArray,
       location: userProfileData.location
     };
+
+    if (existingUserProfile) {
+      // 如果存在，更新記錄
+      await UserProfile.update(updateData, { where: { userId: userProfileData.userId } });
+    } else {
+      // 如果不存在，創建新的記錄
+      await UserProfile.create({
+        userId: userProfileData.userId,
+        ...updateData
+      });
+    }
+
+    // 只返回 Redux 需要的屬性
+    const filteredResponse = updateData;
 
     res.json(filteredResponse);
 
