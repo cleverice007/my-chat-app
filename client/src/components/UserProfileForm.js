@@ -19,6 +19,10 @@ const UserProfileForm = () => {
   });
   
   useEffect(() => {
+    if (userProfile.profilePicture) {
+      setProfilePicturePreview(userProfile.profilePicture);
+    }
+    
     setFormData({
       profilePicture: userProfile.profilePicture || null,
       name: userProfile.name || '',
@@ -29,6 +33,7 @@ const UserProfileForm = () => {
       location: userProfile.location || ''
     });
   }, [userProfile]);
+  
 
   // 用於儲存 Base64 編碼的預覽圖片
   const [profilePicturePreview, setProfilePicturePreview] = useState(null);
