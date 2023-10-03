@@ -30,6 +30,7 @@ require('dotenv').config();
 const userProfileRoutes = require('./routes/userProfileRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const authRoutes = require('./routes/authRoutes');
+const { create } = require('domain');
 
 
 const app = express();
@@ -73,12 +74,14 @@ io.on('connection', (socket) => {
         from,
         to,
         content: message,
+        createdAt: new Date(createdAt),
       });
       const targetSocket = users[to];
       if (targetSocket) {
         targetSocket.emit('privateMessage', {
           from,
           message,
+          createdAt,
         });
       } else {
         console.log("Target user is not connected.");

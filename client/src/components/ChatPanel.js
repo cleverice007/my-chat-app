@@ -6,11 +6,13 @@ const ChatPanel = ({ messages, socket, loggedInUserId, selectedUserId }) => {
   const [messageInput, setMessageInput] = useState(''); // 新增 state 管理 textarea
 
   const sendMessage = (content) => {
+    const timestamp = new Date().getTime();
     const newMessage = {
       from: loggedInUserId,
       to: selectedUserId,
       message: content,
-    };
+      createdAt: timestamp, 
+        };
     socket?.emit('privateMessage', newMessage);
     setLocalMessages([...localMessages, newMessage]);
   };
@@ -43,7 +45,7 @@ const ChatPanel = ({ messages, socket, loggedInUserId, selectedUserId }) => {
     <div className="chat-panel">
       <div className="messages-section overflow-auto h-64 bg-gray-100 p-4">
         {localMessages.map((msg, index) => (
-          <Message key={index} content={msg.message} from={msg.from} />
+          <Message key={index} content={msg.message} from={msg.from}  createdAt={msg.createdAt}  />
         ))}
       </div>
       <div className="input-section bg-gray-200 p-4 flex items-center">
