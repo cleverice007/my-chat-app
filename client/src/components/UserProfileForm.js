@@ -19,6 +19,7 @@ const UserProfileForm = () => {
   });
   
   useEffect(() => {
+    console.log("useEffect triggered", userProfile.profilePicture); // 印出 userProfile.profilePicture 確保它有值
     if (userProfile.profilePicture) {
       setProfilePicturePreview(userProfile.profilePicture);
     }
