@@ -70,10 +70,10 @@ io.on('connection', (socket) => {
 
       await Message.create({
         chatRoomId,
-        userId: from,
+        from,
+        to,
         content: message,
       });
-
       const targetSocket = users[to];
       if (targetSocket) {
         targetSocket.emit('privateMessage', {

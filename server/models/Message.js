@@ -15,7 +15,15 @@ const Message = sequelize.define('Message', {
       key: 'chatRoomId',
     },
   },
-  userId: {
+  from: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'UserProfiles',
+      key: 'userId',
+    },
+  },
+  to: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
