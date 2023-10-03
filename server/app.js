@@ -56,7 +56,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('privateMessage', async (data) => {
-    const { from, to, message } = data;
+    const { from, to, message,createdAt } = data;
     try {
       const [chatRoom] = await ChatRoom.findOrCreate({
         where: {
