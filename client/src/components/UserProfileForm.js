@@ -36,7 +36,7 @@ const UserProfileForm = () => {
   
 
   // 用於儲存 Base64 編碼的預覽圖片
-  const [profilePicturePreview, setProfilePicturePreview] = useState(null);
+  const [profilePicturePreview, setProfilePicturePreview] = useState(userProfile.profilePicture || null);
   // 用於儲存原始的 File 物件
   const [profilePicture, setprofilePicture] = useState(null);
   const handleChange = (e) => {
