@@ -92,7 +92,27 @@ io.on('connection', (socket) => {
   });
 });
 // app.js
+Message.drop()
+  .then(() => {
+    console.log('Message table dropped');
+    return ChatRoom.drop();
+  })
+  .then(() => {
+    console.log('ChatRoom table dropped');
+    return UserProfile.drop();
+  })
+  .then(() => {
+    console.log('UserProfile table dropped');
+    return UserAuth.drop();
+  })
+  .then(() => {
+    console.log('UserAuth table dropped');
+  })
+  .catch(err => {
+    console.error('An error occurred:', err);
+  });
 
+/*
 UserAuth.sync()
   .then(() => {
     console.log('UserAuth table created');
@@ -112,6 +132,8 @@ UserAuth.sync()
   .catch(err => {
     console.error('An error occurred:', err);
   });
+*/
+
 
 
 
