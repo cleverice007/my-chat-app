@@ -31,6 +31,7 @@ module.exports.getOrCreateChatAndFetchMessages = async (req, res) => {
         chatRoomId: chatRoom.chatRoomId,
       },
     });
+    console.log("Fetched messages from database:", messages);
 
     // 返回結果
     res.status(200).json({

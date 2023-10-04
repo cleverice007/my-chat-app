@@ -20,7 +20,7 @@ const ChatPage = () => {
     try {
       const response = await axios.get(`/api/getOrCreateChatAndFetchMessages?loggedInUserId=${loggedInUserId}&selectedUserId=${selectedUserId}`);
       const { chatRoom, messages } = response.data;
-      
+      console.log("Fetched messages from API:", messages); 
       // 更新 messages 狀態
       setMessages(messages);
     } catch (error) {
