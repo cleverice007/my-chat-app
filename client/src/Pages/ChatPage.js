@@ -7,13 +7,14 @@ import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 
 const ChatPage = () => {
-  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
   const socketRef = useRef(null);
   const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([]);
   
-  // 從 Redux 獲取當前登入用戶的 ID
-  const loggedInUserId = useSelector(state => state.user.userId);
+  // 從 Redux 獲取當前登入用戶
+  const loggedInUser = useSelector(state => state.user);
+  const loggedInUserId = loggedInUser.userId;
   
   // 異步方法來創建或獲取聊天室和消息
   const fetchOrCreateChatAndFetchMessages = async (loggedInUserId, selectedUserId) => {
@@ -79,13 +80,13 @@ const ChatPage = () => {
                 profilePicture={user.profilePicture}
                 onClick={() => {
                   fetchOrCreateChatAndFetchMessages(loggedInUserId, user.userId);
-                  setSelectedUserId(user.userId);
+                  setSelectedUser(user);
                 }}
               />
             ))}
           </div>
           <div className="chat-section w-3/4">
-          {selectedUserId && <ChatPanel messages={messages} socket={socketRef.current} loggedInUserId={loggedInUserId} selectedUserId={selectedUserId} />}          </div>
+          {selectedUser && <ChatPanel messages={messages} socket={socketRef.current} loggedInUser={loggedInUser} selectedUser={selectedUser} />}          </div>
         </div>
       </div>
     </div>

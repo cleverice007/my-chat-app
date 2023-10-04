@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'; // 新增 useState
 import Message from './Message';
 
-const ChatPanel = ({ messages, socket, loggedInUserId, selectedUserId }) => {
+const ChatPanel = ({ messages, socket, loggedInUser, selectedUser }) => {
   const [localMessages, setLocalMessages] = useState(messages);
   const [messageInput, setMessageInput] = useState(''); // 新增 state 管理 textarea
+  const loggedInUserId = loggedInUser.userId;
 
   const sendMessage = (content) => {
     const timestamp = new Date().getTime();
     const newMessage = {
       from: loggedInUserId,
-      to: selectedUserId,
+      to: selectedUser.userId,
       message: content,
       createdAt: timestamp, 
         };
@@ -45,7 +46,8 @@ const ChatPanel = ({ messages, socket, loggedInUserId, selectedUserId }) => {
     <div className="chat-panel">
       <div className="messages-section overflow-auto h-64 bg-gray-100 p-4">
         {localMessages.map((msg, index) => (
-          <Message key={index} content={msg.content} from={msg.from}  createdAt={msg.createdAt}  />
+          <Message key={index} content={msg.content} from={msg.from}  createdAt={msg.createdAt}
+          loggedInUser = {loggedInUser} selectedUser ={selectedUser} />
         ))}
       </div>
       <div className="input-section bg-gray-200 p-4 flex items-center">
