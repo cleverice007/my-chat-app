@@ -45,7 +45,7 @@ const ChatPanel = ({ messages, socket, loggedInUserId, selectedUserId }) => {
     <div className="chat-panel">
       <div className="messages-section overflow-auto h-64 bg-gray-100 p-4">
         {localMessages.map((msg, index) => (
-          <Message key={index} content={msg.message} from={msg.from}  createdAt={msg.createdAt}  />
+          <Message key={index} content={msg.content} from={msg.from}  createdAt={msg.createdAt}  />
         ))}
       </div>
       <div className="input-section bg-gray-200 p-4 flex items-center">

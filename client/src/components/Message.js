@@ -9,9 +9,9 @@ const formatDate = (timestamp) => {
   return `${month}-${day} ${hour}:${minute}`;
 };
 
-const Message = ({ content, from, timestamp }) => (
+const Message = ({ content, from, createdAt }) => (
   <div className="message">
-    <strong>{from}</strong>: {content} <span>({formatDate(timestamp)})</span>
+    <strong>{from}</strong>: {content} <span>({formatDate(createdAt)})</span>
   </div>
 );
 
