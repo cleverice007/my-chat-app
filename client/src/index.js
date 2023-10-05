@@ -9,6 +9,7 @@ import ChatPage from './Pages/ChatPage.js';
 import UserProfilePage from './Pages/UserProfilePage'; 
 import LoginPage from './Pages/LoginPage'; 
 import RegisterPage from './Pages/RegisterPage';
+import RegisterPage from './Pages/MathcingPage';
 import store from './store/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -22,6 +23,7 @@ root.render(
           <Route path="/userprofile" element={<UserProfilePage />} /> {}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/match" element={<MatchingPage />} />
         </Routes>
       </Router>
     </Provider>
