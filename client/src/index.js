@@ -9,7 +9,7 @@ import ChatPage from './Pages/ChatPage.js';
 import UserProfilePage from './Pages/UserProfilePage'; 
 import LoginPage from './Pages/LoginPage'; 
 import RegisterPage from './Pages/RegisterPage';
-import RegisterPage from './Pages/MathcingPage';
+import MatchingPage from './Pages/MatchingPage';
 import store from './store/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
