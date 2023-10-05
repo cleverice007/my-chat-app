@@ -1,5 +1,5 @@
 import React from 'react';
-import MatchingCard from './MatchingCard';
+import MatchingCard from '../components/MatchingCard';
 
 const MatchingPage = () => {
   // 假設的個人資料
