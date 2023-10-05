@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfileData } from '../store/userSlice';
 import { useNavigate } from 'react-router-dom';
+import TaiwanCitySelector from './TaiwanCitySelector';
+
 
 
 const UserProfileForm = () => {
@@ -17,13 +19,13 @@ const UserProfileForm = () => {
     interests: userProfile.interests || [],
     location: userProfile.location || ''
   });
-  
+
   useEffect(() => {
     console.log("useEffect triggered", userProfile.profilePicture); // 印出 userProfile.profilePicture 確保它有值
     if (userProfile.profilePicture) {
       setProfilePicturePreview(userProfile.profilePicture);
     }
-    
+
     setFormData({
       profilePicture: userProfile.profilePicture || null,
       name: userProfile.name || '',
@@ -34,7 +36,7 @@ const UserProfileForm = () => {
       location: userProfile.location || ''
     });
   }, [userProfile]);
-  
+
 
   // 用於儲存 Base64 編碼的預覽圖片
   const [profilePicturePreview, setProfilePicturePreview] = useState(userProfile.profilePicture || null);
@@ -63,7 +65,7 @@ const UserProfileForm = () => {
     e.preventDefault();
 
     const form = new FormData();
-    form.append('userId', userId); 
+    form.append('userId', userId);
     form.append('profilePicture', profilePicture);
     form.append('name', formData.name);
     form.append('age', formData.age);
@@ -172,8 +174,9 @@ const UserProfileForm = () => {
       {/* Location */}
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">Location:</label>
-        <input type="text" name="location" value={formData.location} onChange={handleChange} className="w-full p-2 border rounded" />
+        <TaiwanCitySelector onChange={handleChange} defaultValue={formData.location} name ='location'/>
       </div>
+
 
       {/* Buttons */}
       <button type="submit" className="bg-blue-500 text-white p-2 rounded">Save</button>
