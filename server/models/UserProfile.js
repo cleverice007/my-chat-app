@@ -52,6 +52,10 @@ const UserProfile = sequelize.define('UserProfile', {
     type: DataTypes.ARRAY(DataTypes.STRING),
     allowNull: true,
   },
+  matchedUsers: {
+    type: DataTypes.ARRAY(DataTypes.INTEGER),
+    allowNull: true,
+  },
 });
 
 module.exports = UserProfile;

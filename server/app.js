@@ -24,7 +24,7 @@ const { Op } = require('sequelize');
 const cors = require('cors');
 const mysql = require('mysql');
 const sequelize = require('./config/database');
-const { UserAuth,UserProfile, ChatRoom, Message } = require('./models');
+const { UserAuth,UserProfile, ChatRoom, Message,UserMatching } = require('./models');
 
 require('dotenv').config();
 const userProfileRoutes = require('./routes/userProfileRoutes');
@@ -112,7 +112,6 @@ io.on('connection', (socket) => {
     console.error('An error occurred:', err);
   });
 */
-
 UserAuth.sync()
   .then(() => {
     console.log('UserAuth table created');
@@ -120,6 +119,10 @@ UserAuth.sync()
   })
   .then(() => {
     console.log('UserProfile table created');
+    return UserMatching.sync();  
+  })
+  .then(() => {
+    console.log('UserMatching table created');  
     return ChatRoom.sync();
   })
   .then(() => {
@@ -132,6 +135,7 @@ UserAuth.sync()
   .catch(err => {
     console.error('An error occurred:', err);
   });
+
 
 
 
