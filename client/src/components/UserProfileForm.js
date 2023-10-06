@@ -17,7 +17,10 @@ const UserProfileForm = () => {
     gender: userProfile.gender || 'Male',
     aboutMe: userProfile.aboutMe || '',
     interests: userProfile.interests || [],
-    location: userProfile.location || ''
+    location: userProfile.location || '',
+    idealAgeRange: userProfile.idealAgeRange || [20, 30], // 理想年紀範圍
+    idealLocation: userProfile.idealLocation || [], // 理想地區
+    idealGender: userProfile.idealGender || [] // 理想性別
   });
 
   useEffect(() => {
@@ -34,9 +37,9 @@ const UserProfileForm = () => {
       aboutMe: userProfile.aboutMe || '',
       interests: userProfile.interests || [],
       location: userProfile.location || '',
-      idealAgeRange: [20, 26], // 理想年紀範圍
-      idealLocation: [], // 理想地區
-      idealGender: [] // 理想性別
+      idealAgeRange: userProfile.idealAgeRange || [20, 30], // 理想年紀範圍
+      idealLocation: userProfile.idealLocation || [], // 理想地區
+      idealGender: userProfile.idealGender || [] // 理想性別
     });
   }, [userProfile]);
 
@@ -52,6 +55,29 @@ const UserProfileForm = () => {
       [name]: value
     });
   };
+
+  const handleAgeChange = (e) => {
+    const { name, value } = e.target;
+    let newMinAge = formData.idealAgeRange[0];
+    let newMaxAge = formData.idealAgeRange[1];
+
+    if (name === "idealAgeMin") {
+      newMinAge = value;
+    } else if (name === "idealAgeMax") {
+      newMaxAge = value;
+    }
+
+    if (parseInt(newMinAge) >= parseInt(newMaxAge)) {
+      alert("最小年齡必須小於最大年齡");
+      return;
+    }
+
+    setFormData({
+      ...formData,
+      idealAgeRange: [newMinAge, newMaxAge],
+    });
+  };
+
 
   const handleMultiSelect = (e) => {
     const { name } = e.target;
@@ -77,6 +103,10 @@ const UserProfileForm = () => {
     form.append('aboutMe', formData.aboutMe);
     form.append('interests', JSON.stringify(formData.interests));
     form.append('location', formData.location);
+    form.append('idealAgeRange', JSON.stringify(formData.idealAgeRange));
+    form.append('idealLocation', JSON.stringify(formData.idealLocation));
+    form.append('idealGender', JSON.stringify(formData.idealGender));
+
 
     try {
       const apiUrl = "/api/userprofiles";
@@ -183,13 +213,24 @@ const UserProfileForm = () => {
       {/* 理想年紀 */}
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">Ideal Age Range:</label>
-        <select name="idealAgeMin" value={formData.idealAgeRange[0]} onChange={handleChange} className="w-full p-2 border rounded">
+        <select
+          name="idealAgeMin"
+          value={formData.idealAgeRange[0]}
+          onChange={handleAgeChange}
+          className="w-full p-2 border rounded"
+        >
           {/* Generate age options */}
         </select>
         ~
-        <select name="idealAgeMax" value={formData.idealAgeRange[1]} onChange={handleChange} className="w-full p-2 border rounded">
+        <select
+          name="idealAgeMax"
+          value={formData.idealAgeRange[1]}
+          onChange={handleAgeChange}
+          className="w-full p-2 border rounded"
+        >
           {/* Generate age options */}
         </select>
+
       </div>
 
       {/* 理想地區 */}

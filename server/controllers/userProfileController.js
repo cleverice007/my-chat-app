@@ -33,6 +33,9 @@ module.exports.submitUserProfile = async (req, res) => {
 
   try {
     const interestsArray = JSON.parse(userProfileData.interests);
+    const idealAgeRange = JSON.parse(userProfileData.idealAgeRange); // 解析成陣列
+    const idealLocation = JSON.parse(userProfileData.idealLocation); 
+    const idealGender = JSON.parse(userProfileData.idealGender); 
 
     // 先檢查 userId 是否存在
     const existingUserProfile = await UserProfile.findOne({ where: { userId: userProfileData.userId } });
@@ -50,7 +53,10 @@ module.exports.submitUserProfile = async (req, res) => {
       gender: userProfileData.gender,
       aboutMe: userProfileData.aboutMe,
       interests: interestsArray,
-      location: userProfileData.location
+      location: userProfileData.location,
+      idealAgeRange, 
+      idealLocation, 
+      idealGender   
     };
 
     if (existingUserProfile) {

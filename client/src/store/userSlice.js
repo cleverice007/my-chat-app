@@ -11,6 +11,9 @@ export const userSlice = createSlice({
     aboutMe: '',
     interests: [],
     location: '',
+    idealAgeRange: [20, 30], 
+    idealLocation: [],       
+    idealGender: [],         
   },
   reducers: {
     setProfileData: (state, action) => {

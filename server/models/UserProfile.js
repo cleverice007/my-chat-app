@@ -40,6 +40,18 @@ const UserProfile = sequelize.define('UserProfile', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  idealAgeRange: {
+    type: DataTypes.ARRAY(DataTypes.INTEGER),
+    allowNull: true,
+  },
+  idealLocation: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true,
+  },
+  idealGender: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true,
+  },
 });
 
 module.exports = UserProfile;
