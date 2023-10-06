@@ -45,7 +45,7 @@ const ChatPage = () => {
         socketRef.current.emit('init', loggedInUserId);
       });
       
-      // 從後端獲取所有用戶資料
+      // 從後端獲取所有用戶資料 之後要修改成只會顯現有配對的用戶
       axios.get('/api/userprofiles')
         .then(response => {
           const filteredUsers = response.data.filter(user => user.userId !== loggedInUserId);

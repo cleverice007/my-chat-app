@@ -33,7 +33,10 @@ const UserProfileForm = () => {
       gender: userProfile.gender || 'Male',
       aboutMe: userProfile.aboutMe || '',
       interests: userProfile.interests || [],
-      location: userProfile.location || ''
+      location: userProfile.location || '',
+      idealAgeRange: [20, 26], // 理想年紀範圍
+      idealLocation: [], // 理想地區
+      idealGender: [] // 理想性別
     });
   }, [userProfile]);
 
@@ -51,10 +54,11 @@ const UserProfileForm = () => {
   };
 
   const handleMultiSelect = (e) => {
+    const { name } = e.target;
     const value = Array.from(e.target.selectedOptions, option => option.value);
     setFormData({
       ...formData,
-      interests: value
+      [name]: value
     });
   };
   const dispatch = useDispatch();
@@ -174,7 +178,35 @@ const UserProfileForm = () => {
       {/* Location */}
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">Location:</label>
-        <TaiwanCitySelector onChange={handleChange} defaultValue={formData.location} name ='location'/>
+        <TaiwanCitySelector onChange={handleChange} defaultValue={formData.location} name='location' />
+      </div>
+      {/* 理想年紀 */}
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">Ideal Age Range:</label>
+        <select name="idealAgeMin" value={formData.idealAgeRange[0]} onChange={handleChange} className="w-full p-2 border rounded">
+          {/* Generate age options */}
+        </select>
+        ~
+        <select name="idealAgeMax" value={formData.idealAgeRange[1]} onChange={handleChange} className="w-full p-2 border rounded">
+          {/* Generate age options */}
+        </select>
+      </div>
+
+      {/* 理想地區 */}
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">Ideal Locations:</label>
+        <select multiple name="idealLocation" value={formData.idealLocation} onChange={handleMultiSelect} className="w-full p-2 border rounded">
+          {/* 各縣市選項 */}
+        </select>
+      </div>
+
+      {/* 理想性別 */}
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">Ideal Gender:</label>
+        <select multiple name="idealGender" value={formData.idealGender} onChange={handleMultiSelect} className="w-full p-2 border rounded">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
       </div>
 
 
