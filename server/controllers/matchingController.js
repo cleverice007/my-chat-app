@@ -48,7 +48,7 @@ module.exports.getPotentialMatches = async (req, res) => {
         whereConditions.gender = { [Op.in]: idealGender };
       }
   
-      // 包含pending的用户，但排除当前用户
+      // 包含pending的用户，但排除已經配對過的用户＆自己
       const potentialMatches = await UserProfile.findAll({
         attributes: ['profilePicture', 'name', 'age', 'gender', 'aboutMe', 'interests', 'location'],
         where: {

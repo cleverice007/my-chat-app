@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import MatchingCard from '../components/MatchingCard';
 
 const MatchingPage = () => {
-  const [users, setUsers] = useState([]);
+  const [potentialMatches, setPotentialMatches] = useState([]);  
   
   // 從 Redux store 中取得 userId
   const loggedInUser = useSelector(state => state.user);
@@ -20,7 +20,7 @@ const MatchingPage = () => {
           Authorization: `Bearer ${token}`
         }
       });
-      setUsers(response.data);
+      setPotentialMatches(response.data);
     } catch (error) {
       console.error('Error fetching potential matches:', error);
     }
@@ -33,7 +33,7 @@ const MatchingPage = () => {
     <div className="w-full h-screen bg-gray-200">
       {
         users.map((user, index) => (
-          <MatchingCard key={index} profile={user} />
+          <MatchingCard key={index} userProfile={potentialMatches} />
         ))
       }
     </div>
