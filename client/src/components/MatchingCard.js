@@ -1,10 +1,4 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-const [users, setUsers] = useState([]);
-  // 從 Redux 獲取當前登入用戶
-  const loggedInUser = useSelector(state => state.user);
-  const loggedInUserId = loggedInUser.userId;
 
 const MatchingCard = ({ profile }) => {
   return (

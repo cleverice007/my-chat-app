@@ -1,18 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import jwt from 'jsonwebtoken';
 import MatchingCard from '../components/MatchingCard';
 
 const MatchingPage = () => {
-  // 假設的個人資料
-  const profile = {
-    name: "Jane Doe",
-    age: 27,
-    location: "Taipei",
-    image: "https://phantom-marca.unidadeditorial.es/89ca58c034bdd768cd36d800cb3e3a73/resize/1320/f/webp/assets/multimedia/imagenes/2023/07/04/16884982838657.jpg"  
+  const [users, setUsers] = useState([]);
+  
+  // 從 Redux store 中取得 userId
+  const loggedInUser = useSelector(state => state.user);
+  const loggedInUserId = loggedInUser.userId;
+
+  // 從伺服器取得潛在配對
+  const fetchPotentialMatches = async () => {
+    try {
+      const token = jwt.sign({ id: loggedInUserId }, 'yourSecretKey'); // 創建 JWT
+      const response = await axios.get('/api/potentialMatches', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setUsers(response.data);
+    } catch (error) {
+      console.error('Error fetching potential matches:', error);
+    }
   };
+  useEffect(() => {
+    fetchPotentialMatches();
+  }, []);
 
   return (
     <div className="w-full h-screen bg-gray-200">
-      <MatchingCard profile={profile} />
+      {
+        users.map((user, index) => (
+          <MatchingCard key={index} profile={user} />
+        ))
+      }
     </div>
   );
 };
