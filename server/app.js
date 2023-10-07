@@ -30,6 +30,7 @@ require('dotenv').config();
 const userProfileRoutes = require('./routes/userProfileRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const authRoutes = require('./routes/authRoutes');
+const matchRoutes = require('./routes/matchRoutes');
 const { create } = require('domain');
 
 
@@ -46,6 +47,7 @@ app.use(express.json());
 app.use('/', userProfileRoutes);
 app.use('/', chatRoutes);
 app.use('/', authRoutes);
+app.use('/', matchRoutes);
 
 let users = {};
 

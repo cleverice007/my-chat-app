@@ -1,4 +1,6 @@
 const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+
 
 const UserMatching = sequelize.define('UserMatching', {
   id: {
