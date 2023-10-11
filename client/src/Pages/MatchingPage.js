@@ -14,17 +14,13 @@ const MatchingPage = () => {
   // 從伺服器取得潛在配對
   const fetchPotentialMatches = async () => {
     try {
-      const token = jwt.sign({ id: loggedInUserId }, 'yourSecretKey'); // 創建 JWT
-      const response = await axios.get('/api/potentialMatches', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      const response = await axios.get(`/api/potentialMatches?userId=${loggedInUserId}`);
       setPotentialMatches(response.data);
     } catch (error) {
       console.error('Error fetching potential matches:', error);
     }
   };
+  
   useEffect(() => {
     fetchPotentialMatches();
   }, []);
