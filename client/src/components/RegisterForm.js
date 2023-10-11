@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import jwt_decode from "jwt-decode";
+import jwt from 'jsonwebtoken';
 import { setProfileData } from '../store/userSlice';
 import { useDispatch } from 'react-redux';
 
@@ -16,7 +16,7 @@ const RegisterForm = () => {
       const response = await axios.post('/api/register', data);
   
       if (response.data.success) {
-        const decoded = jwt_decode(response.data.token);
+        const decoded = jwt.decode(response.data.token);
         dispatch(setProfileData({ userId: decoded.id }));
         navigate('/userprofile');
       } else {
