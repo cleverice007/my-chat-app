@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import jwt from 'jsonwebtoken';
+import jwt_decode from 'jwt-decode';
 import { setProfileData } from '../store/userSlice';
 import { useDispatch } from 'react-redux';
 
@@ -16,7 +16,7 @@ const LoginForm = () => {
       const response = await axios.post('/api/login', data);
   
       if (response.data.success) {
-        const decoded = jwt.decode(response.data.token);
+        const decoded = jwt_decode(response.data.token);
         const userProfile = response.data.userProfile;
   
         // 更新 Redux store
