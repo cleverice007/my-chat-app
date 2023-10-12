@@ -27,8 +27,8 @@ const MatchingPage = () => {
   return (
     <div className="w-full h-screen bg-gray-200">
       {
-        users.map((user, index) => (
-          <MatchingCard key={index} userProfile={potentialMatches} />
+        potentialMatches.map((potentiMatch, index) => (
+          <MatchingCard key={index} userProfile={potentialMatch} />
         ))
       }
     </div>
