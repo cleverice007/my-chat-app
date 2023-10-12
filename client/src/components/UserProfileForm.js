@@ -219,7 +219,11 @@ const UserProfileForm = () => {
           onChange={handleAgeChange}
           className="w-full p-2 border rounded"
         >
-          {/* Generate age options */}
+          {
+            Array.from({ length: 83 }, (_, i) => i + 18).map((age) => (
+              <option key={age} value={age}>{age}</option>
+            ))
+          }
         </select>
         ~
         <select
@@ -228,18 +232,25 @@ const UserProfileForm = () => {
           onChange={handleAgeChange}
           className="w-full p-2 border rounded"
         >
-          {/* Generate age options */}
+          {
+            Array.from({ length: 83 }, (_, i) => i + 18).map((age) => (
+              <option key={age} value={age}>{age}</option>
+            ))
+          }
         </select>
-
       </div>
 
       {/* 理想地區 */}
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">Ideal Locations:</label>
-        <select multiple name="idealLocation" value={formData.idealLocation} onChange={handleMultiSelect} className="w-full p-2 border rounded">
-          {/* 各縣市選項 */}
-        </select>
+        <TaiwanCitySelector
+          onChange={handleMultiSelect}
+          defaultValue={formData.idealLocation}
+          name='idealLocation'
+          multiple={true}
+        />
       </div>
+
 
       {/* 理想性別 */}
       <div className="mb-4">

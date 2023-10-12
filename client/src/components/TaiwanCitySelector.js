@@ -26,8 +26,8 @@ const cities = [
   "連江縣"
 ];
 
-const TaiwanCitySelector = ({ onChange, defaultValue, name }) => (
-  <select onChange={onChange} value={defaultValue}>
+const TaiwanCitySelector = ({ onChange, defaultValue, name, multiple }) => (
+  <select onChange={onChange} value={defaultValue} multiple={multiple}>
     <option value="" disabled>Select a city</option>
     {cities.map((city, index) => (
       <option key={index} value={city}>
@@ -36,5 +36,6 @@ const TaiwanCitySelector = ({ onChange, defaultValue, name }) => (
     ))}
   </select>
 );
+
 
 export default TaiwanCitySelector;
