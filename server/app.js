@@ -94,13 +94,17 @@ io.on('connection', (socket) => {
   });
 });
 // app.js
-/*Message.drop()
+Message.drop()
   .then(() => {
     console.log('Message table dropped');
     return ChatRoom.drop();
   })
   .then(() => {
     console.log('ChatRoom table dropped');
+    return UserMatching.drop();
+  })
+  .then(() => {
+    console.log('UserMatching table dropped');
     return UserProfile.drop();
   })
   .then(() => {
@@ -113,7 +117,8 @@ io.on('connection', (socket) => {
   .catch(err => {
     console.error('An error occurred:', err);
   });
-*/
+
+/*
 UserAuth.sync()
   .then(() => {
     console.log('UserAuth table created');
@@ -149,3 +154,4 @@ const host = process.env.HOST || '0.0.0.0';
 server.listen(port, host, () => {
   console.log(`Server running on http://${host}:${port}`);
 });
+*/
