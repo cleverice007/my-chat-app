@@ -94,6 +94,7 @@ io.on('connection', (socket) => {
   });
 });
 // app.js
+/*
 Message.drop()
   .then(() => {
     console.log('Message table dropped');
@@ -117,8 +118,9 @@ Message.drop()
   .catch(err => {
     console.error('An error occurred:', err);
   });
+  */
 
-/*
+
 UserAuth.sync()
   .then(() => {
     console.log('UserAuth table created');
@@ -154,4 +156,3 @@ const host = process.env.HOST || '0.0.0.0';
 server.listen(port, host, () => {
   console.log(`Server running on http://${host}:${port}`);
 });
-*/
