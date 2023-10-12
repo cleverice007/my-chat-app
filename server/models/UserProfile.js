@@ -9,7 +9,7 @@ const UserProfile = sequelize.define('UserProfile', {
     primaryKey: true,
     references: {
       model: 'UserAuths',
-      key: 'id'  // 對應userauth 自動生成的id
+      key: 'id'  // 對應到 UserAuth 的自動生成的 id
     }
   },
   profilePicture: {
@@ -33,7 +33,7 @@ const UserProfile = sequelize.define('UserProfile', {
     allowNull: true,
   },
   interests: {
-    type: DataTypes.JSON,
+    type: DataTypes.JSON,  
     allowNull: true,
   },
   location: {
@@ -41,21 +41,22 @@ const UserProfile = sequelize.define('UserProfile', {
     allowNull: true,
   },
   idealAgeRange: {
-    type: DataTypes.ARRAY(DataTypes.INTEGER),
+    type: DataTypes.JSON, 
     allowNull: true,
   },
   idealLocation: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
+    type: DataTypes.JSON,
     allowNull: true,
   },
   idealGender: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
+    type: DataTypes.JSON,  
     allowNull: true,
   },
   matchedUsers: {
-    type: DataTypes.ARRAY(DataTypes.INTEGER),
+    type: DataTypes.JSON, 
     allowNull: true,
   },
 });
 
 module.exports = UserProfile;
+
