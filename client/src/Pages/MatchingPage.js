@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import MatchingCard from '../components/MatchingCard';
 
 const MatchingPage = () => {
-  const [potentialMatches, setPotentialMatches] = useState([]);  
-  
+  const [potentialMatches, setPotentialMatches] = useState([]);
+
   // 從 Redux store 中取得 userId
   const loggedInUser = useSelector(state => state.user);
   const loggedInUserId = loggedInUser.userId;
@@ -19,7 +19,7 @@ const MatchingPage = () => {
       console.error('Error fetching potential matches:', error);
     }
   };
-  
+
   useEffect(() => {
     fetchPotentialMatches();
   }, []);
@@ -27,10 +27,11 @@ const MatchingPage = () => {
   return (
     <div className="w-full h-screen bg-gray-200">
       {
-        potentialMatches.map((potentiMatch, index) => (
+        potentialMatches.map((potentialMatch, index) => (
           <MatchingCard key={index} userProfile={potentialMatch} />
         ))
       }
+
     </div>
   );
 };
