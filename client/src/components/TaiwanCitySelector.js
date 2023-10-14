@@ -28,7 +28,7 @@ const cities = [
 
 const TaiwanCitySelector = ({ onChange, value, name, multiple }) => (
   <select onChange={onChange} value={value} multiple={multiple}>
-    <option value="" disabled>Select a city</option>
+    <option value="" disabled={!value}>Select a city</option>
     {cities.map((city, index) => (
       <option key={index} value={city}>
         {city}

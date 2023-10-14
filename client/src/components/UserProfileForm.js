@@ -50,7 +50,6 @@ const UserProfileForm = () => {
   const [profilePicture, setprofilePicture] = useState(null);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log("handleChange:", name, value);
     setFormData({
       ...formData,
       [name]: value
@@ -83,7 +82,6 @@ const UserProfileForm = () => {
   const handleMultiSelect = (e) => {
     const { name } = e.target;
     const value = Array.from(e.target.selectedOptions, option => option.value);
-    console.log("handleMultiSelect:", name, value);
     setFormData({
       ...formData,
       [name]: value
@@ -251,7 +249,12 @@ const UserProfileForm = () => {
           name='idealLocation'
           multiple={true}
         />
+        {/* 這裡顯示已選擇的地點 */}
+        <p className="mt-2 text-sm text-gray-600">
+          Selected Locations: {formData.idealLocation.join(', ')}
+        </p>
       </div>
+
 
 
       {/* 理想性別 */}
