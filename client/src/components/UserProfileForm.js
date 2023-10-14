@@ -43,6 +43,11 @@ const UserProfileForm = () => {
     });
   }, [userProfile]);
 
+  useEffect(() => {
+    console.log("Current formData:", formData);
+  }, [formData]);
+  
+
 
   // 用於儲存 Base64 編碼的預覽圖片
   const [profilePicturePreview, setProfilePicturePreview] = useState(userProfile.profilePicture || null);
@@ -55,7 +60,6 @@ const UserProfileForm = () => {
       ...formData,
       [name]: value
     });
-    console.log("formData after handleChange:", formData);
   };
 
   const handleAgeChange = (e) => {
@@ -89,7 +93,6 @@ const UserProfileForm = () => {
       ...formData,
       [name]: value
     });
-    console.log("formData after handleMultiSelect:", formData);
   };
 
   const dispatch = useDispatch();
