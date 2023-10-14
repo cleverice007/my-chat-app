@@ -208,7 +208,7 @@ const UserProfileForm = () => {
       {/* Location */}
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">Location:</label>
-        <TaiwanCitySelector onChange={handleChange} defaultValue={formData.location} name='location' />
+        <TaiwanCitySelector onChange={handleChange} value={formData.location} name='location' />
       </div>
       {/* 理想年紀 */}
       <div className="mb-4">
@@ -245,7 +245,7 @@ const UserProfileForm = () => {
         <label className="block text-gray-700 text-sm font-bold mb-2">Ideal Locations:</label>
         <TaiwanCitySelector
           onChange={handleMultiSelect}
-          defaultValue={formData.idealLocation}
+          value={formData.idealLocation}
           name='idealLocation'
           multiple={true}
         />
