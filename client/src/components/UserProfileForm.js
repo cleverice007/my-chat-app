@@ -50,10 +50,12 @@ const UserProfileForm = () => {
   const [profilePicture, setprofilePicture] = useState(null);
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(`handleChange called for ${name} with value: ${value}`); // 添加 log 來追蹤
     setFormData({
       ...formData,
       [name]: value
     });
+    console.log("formData after handleChange:", formData);
   };
 
   const handleAgeChange = (e) => {
@@ -82,11 +84,14 @@ const UserProfileForm = () => {
   const handleMultiSelect = (e) => {
     const { name } = e.target;
     const value = Array.from(e.target.selectedOptions, option => option.value);
+    console.log(`handleMultiSelect called for ${name} with value: ${value.join(', ')}`); // 添加 log 來追蹤
     setFormData({
       ...formData,
       [name]: value
     });
+    console.log("formData after handleMultiSelect:", formData);
   };
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
