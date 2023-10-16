@@ -8,10 +8,17 @@ const MatchingPage = () => {
 
   // 從 Redux store 中取得 userId
   const loggedInUser = useSelector(state => state.user);
-  const loggedInUserId = loggedInUser.userId;
+  const loggedInUserId = loggedInUser ? loggedInUser.userId : null;
+
+  console.log("Current loggedInUserId in MatchingPage:", loggedInUserId); // Debug
 
   // 從伺服器取得潛在配對
   const fetchPotentialMatches = async () => {
+    if (!loggedInUserId) {
+      console.error('loggedInUserId is null. Cannot fetch potential matches.');
+      return;
+    }
+
     try {
       const response = await axios.get(`/api/potentialMatches?userId=${loggedInUserId}`);
       setPotentialMatches(response.data);
@@ -21,19 +28,18 @@ const MatchingPage = () => {
   };
 
   useEffect(() => {
-    fetchPotentialMatches();
-  }, []);
-
+    if (loggedInUserId) {
+      fetchPotentialMatches();
+    }
+  }, [loggedInUserId]); // 只有在 loggedInUserId 改變時才會觸發 useEffect
   return (
     <div className="w-full h-screen bg-gray-200">
-      {
-        potentialMatches.map((potentialMatch, index) => (
-          <MatchingCard key={index} userProfile={potentialMatch} />
-        ))
-      }
-
+      {potentialMatches.map((potentialMatch, index) => (
+        <MatchingCard key={index} userProfile={potentialMatch} />
+      ))}
     </div>
   );
 };
 
 export default MatchingPage;
+
