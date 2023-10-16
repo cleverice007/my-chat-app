@@ -11,7 +11,7 @@ const ChatPanel = ({ messages, socket, loggedInUser, selectedUser }) => {
     const newMessage = {
       from: loggedInUserId,
       to: selectedUser.userId,
-      content: content,
+      message: content,
       createdAt: timestamp, 
         };
     socket?.emit('privateMessage', newMessage);
