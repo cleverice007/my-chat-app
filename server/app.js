@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('privateMessage', async (data) => {
-    const { from, to, message,createdAt } = data;
+    const { from, to, content, createdAt } = data; 
     try {
       const [chatRoom] = await ChatRoom.findOrCreate({
         where: {
@@ -68,21 +68,22 @@ io.on('connection', (socket) => {
           ],
         },
       });
-
+  
       const chatRoomId = chatRoom.get('chatRoomId');
-
+  
       await Message.create({
         chatRoomId,
         from,
         to,
-        content: message,
+        content: content, 
         createdAt: new Date(createdAt),
       });
+  
       const targetSocket = users[to];
       if (targetSocket) {
         targetSocket.emit('privateMessage', {
           from,
-          message,
+          content,
           createdAt,
         });
       } else {
@@ -92,6 +93,7 @@ io.on('connection', (socket) => {
       console.error("Error handling private message:", err);
     }
   });
+  
 });
 // app.js
 /*
