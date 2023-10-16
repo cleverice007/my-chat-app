@@ -1,6 +1,8 @@
 const { Op } = require('sequelize');
 const jwt = require('jsonwebtoken');
 const UserProfile = require('../models/UserProfile');  // 引入UserProfile模型
+const UserMatching = require('../models/UserMatching');
+
 
 module.exports.getPotentialMatches = async (req, res) => {
   try {
