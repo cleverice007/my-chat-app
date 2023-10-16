@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-
 const UserMatching = sequelize.define('UserMatching', {
   id: {
     type: DataTypes.INTEGER,
@@ -24,10 +23,15 @@ const UserMatching = sequelize.define('UserMatching', {
       key: 'id'
     }
   },
-  status: {
+  user1Status: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: 'pending'  // 可以是 pending, accepted, rejected
+    defaultValue: 'pending' // 可以是 'pending', 'accepted', 'rejected'
+  },
+  user2Status: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'pending' // 可以是 'pending', 'accepted', 'rejected'
   },
   createdAt: {
     type: DataTypes.DATE,

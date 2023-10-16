@@ -96,7 +96,7 @@ io.on('connection', (socket) => {
   
 });
 // app.js
-/*
+
 Message.drop()
   .then(() => {
     console.log('Message table dropped');
@@ -120,10 +120,10 @@ Message.drop()
   .catch(err => {
     console.error('An error occurred:', err);
   });
-  */
+  
 
 
-UserAuth.sync()
+/*UserAuth.sync()
   .then(() => {
     console.log('UserAuth table created');
     return UserProfile.sync();
@@ -147,7 +147,7 @@ UserAuth.sync()
     console.error('An error occurred:', err);
   });
 
-
+*/
 
 
 
